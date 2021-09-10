@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gui/main.css' %}">
+    <title>Capstone</title>
+</head>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" href="/">Capstone 1</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+
+                <!-- Navbar Right Side -->
+            </div>
+        </div>
+    </nav>
+</header>
+
+<body onload="fillNums()">
+<div class="wrapper" >
+        <ul>
+            <li onclick="test()">Setup</li>
+
+            <li>Graph
+                <ul>
+                    <li>other</li>
+                    <li>other2</li>
+                </ul>
+            </li>
+            <li>Database</li>
+            <li>Other</li>
+        </ul>
+</div>
+<div>
+    {% block content %}{% endblock %}
+    {% block output %}{% endblock %}
+</div>
+  <script src="js/scripts.js"></script>
+    <script>
+         function test() {
+        var f = document.getElementById('thisform');
+        f.hidden = false;
+    }
+    </script>
+</body>
+</html>

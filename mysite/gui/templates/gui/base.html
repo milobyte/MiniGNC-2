@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gui/main.css' %}">
+    <title>Capstone</title>
+</head>
+
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" href="/">MiniGNC</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+
+                <!-- Navbar Right Side -->
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="content-section" style="width:16%; float: left; margin:10px">
+    <h2 style="margin-bottom:20px">Setup Menu</h2>
+    <div class="btn-group" style="display: inline-block; margin-bottom:10px">
+        <form action="#" method="get" style="background-color:#f3f2f2; padding-bottom:10px">
+            <label style=" margin-left:10px">Number of Hosts: <input type="text" value="{{graph.num_hosts}}" id="host" name="host" size="3" style="width:30px; margin-left: 37px; margin-top: 10px;"/></label>
+            <label style=" margin-left:10px">Number of Switches: <input type="text" value="{{graph.num_switches}}" id="switch" name="switch" size="3" style="width:30px; margin-left: 14px"/></label>
+            <label style=" margin-left:10px">Number of Controllers: <input type="text" value="{{graph.num_controllers}}" id="controller" name="controller" size="3" style="width:30px"/></label>
+            <label style=" margin-left:10px">Link Nodes: <input type="text" value="h1, s1; h2, s1" id="link" name="link" /></label>
+            <input type="submit" value="Set Parameters" name="setbtn" style="margin-left: 48px; margin-bottom: 8px">
+            <input type="submit" value="Reset Parameters" name="resetbtn" style="margin-left: 40px; margin-bottom: 8px">
+            <div>
+                <input type="submit" value="Generate Graph" name="graphbtn" style="margin-left: 46px; margin-bottom: 8px">
+                <input type="submit" value="Ping All" name="pingbtn" style="margin-left: 72px">
+            </div>
+                <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray">
+                <h2 style="margin-bottom:20px">Database Menu</h2>
+                <div style="background-color:#f3f2f2">
+                    <label>Choose a name for the database:</label>
+                    <input type="text" value="example" id="save_file_name" name="save_file_name" />
+                    <input style="margin-top:5px" type="submit" value="Save to Database" name="add_databtn">
+
+                    <label style="margin-top:20px">Select a csv file to load:</label>
+                    <input type="file" name="load_databtn" id="load_databtn" accept="text/csv, .csv">
+                    <input style="margin-top:5px" type="submit" value="Load" id="submit_load_filename"/>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div class="content-section" id="info" style="width:30%; float:left; margin:10px">
+    <h2 style="margin-bottom:20px">Graph Information</h2>
+    <div style="background-color:#f3f2f2">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<div class="content-section" id="output" style="float:left; margin:10px">
+    <h2 style="margin-bottom:20px">Output</h2>
+    <div style="background-color:#f3f2f2">
+        {% block output %}{% endblock %}
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+</body>
+
+<!--<script>
+
+    var get_file = function() {
+        var fileInput = document.querySelector("#load_databtn");
+        var file = fileInput.files[0];
+        alert(file.name);
+    }
+
+    document.querySelector("#load_databtn").onchange = get_file;
+
+</script>-->
+
+</html>

@@ -1,0 +1,75 @@
+body {
+  background: #000000;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #000000;
+}
+
+ul {
+  margin: 0;
+}
+
+nav.our_header_color {
+  background-color: #000000;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.btn-group button {
+  background: #333333; /* Green background */
+  border: 1px black; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  margin: 5px;
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%;
+  display: inline-block;
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+
+.btn button {
+  background: #333333; /* Green background */
+  border: 1px black; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  margin: 5px;
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%;
+}
+
+.btn button:hover {
+  background-color: #3e8e41;
+}
+
+#iframe{
+    position: right;
+}

@@ -1,0 +1,11 @@
+"_id","_labels","ip","name","type","_start","_end","_type"
+"18",":iperf_3_example","127.0.0.1","h1","host",,,
+"19",":iperf_3_example","127.0.0.2","h2","host",,,
+"20",":iperf_3_example","","s1","switch",,,
+"21",":iperf_3_example","","s2","switch",,,
+"22",":iperf_3_example","","s3","switch",,,
+"23",":iperf_3_example","","c1","controller",,,
+,,,,,"18","20","PORT"
+,,,,,"21","20","PORT"
+,,,,,"21","22","PORT"
+,,,,,"19","22","PORT"

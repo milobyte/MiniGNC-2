@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        ul {
+            background-color: #4c4c4c;
+            list-style-type: none;
+            padding: 5px 0px 5px;
+        }
+
+        li.h {
+            color: #ffffff;
+            border-left: 3px solid black;
+            padding: 5px 0px 5px 10px;
+            margin-left: 10px;
+        }
+
+        li.s {
+            color: #ffffff;
+            border-left: 3px solid green;
+            padding: 5px 0px 5px 10px;
+            margin-left: 10px;
+        }
+
+        li.c {
+            color: #ffffff;
+            border-left: 3px solid blue;
+            padding: 5px 0px 5px 10px;
+            margin-left: 10px;
+        }
+
+        pre.color {
+            background-color: #4c4c4c;
+            color: #ffffff;
+        }
+
+        h3.color {
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+</html>
+
+{% extends "gui/base_test.html" %}
+{% block content %}
+    <h3 class="color">Hosts:</h3>
+    <ul>
+        {% for host in graph.hosts %}
+        <li class="h">{{ host }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3 class="color">Switches:</h3>
+    <ul>
+        {% for switch in graph.switches %}
+        <li class="s">{{ switch }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3 class="color">Controllers:</h3>
+    <ul>
+        {% for controller in graph.controllers %}
+        <li class="c">{{ controller }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3 class="color">Links:</h3>
+    <ul>
+        {% for link in graph.links %}
+        <li class="h">{{ link }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
+
+{% block output %}
+    <pre class="color">{{output.ping}}</pre>
+{% endblock output %}

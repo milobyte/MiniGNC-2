@@ -1,0 +1,7 @@
+"_id","_labels","ip","name","type","_start","_end","_type"
+"14",":iperf_single_example","127.0.0.1","h1","host",,,
+"15",":iperf_single_example","127.0.0.2","h2","host",,,
+"16",":iperf_single_example","","s1","switch",,,
+"17",":iperf_single_example","","c1","controller",,,
+,,,,,"14","16","PORT"
+,,,,,"15","16","PORT"
