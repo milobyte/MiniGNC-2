@@ -97,7 +97,7 @@ def make_graph(graph):
         mode='markers',
         hoverinfo='text',
         marker=dict(
-            size=80,
+            size=10,
             color=[],
             opacity=1.0,
             line=dict(
@@ -126,7 +126,7 @@ def make_graph(graph):
 
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
-        line=dict(width=5, color='black'),
+        line=dict(width=.5, color='black'),
         hoverinfo='none',
         mode='lines')
 
