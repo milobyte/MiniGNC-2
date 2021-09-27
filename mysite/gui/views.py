@@ -118,7 +118,8 @@ def home(request):
 
             for row in csv_r:
                 full_list.append(row)
-                if row['_labels'] == ":" + file.replace(".csv", ""):
+                # if row['_labels'] == ":" + file.replace(".csv", ""):
+                if row['_labels'] != "":
                     if row['type'] == 'host':
                         graph_nodes['hosts'].append(nodes.Host(row.get('name'), row.get('ip')))
                     elif row['type'] == 'switch':
