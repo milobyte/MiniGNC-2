@@ -65,26 +65,39 @@ def make_graph(graph):
     switch_y = 5
     cont_y = 8
     host_counter = 0
+
+    switch_cur_x = 5
+    cont_cur_x = 5
+    host_cur_x = 5
+    increment = 5
+
     for node in nx_graph.nodes():
 
         if nx_graph.nodes[node]['type'] == 'Switch':
             y = switch_y
-            start_x += 1
-            switch_y += 1
-            x = start_x
-            last_switch_x = x
+            #switch_cur_x += 10
+            #switch_y += 1
+            #x = start_x
+            x = switch_cur_x
+            switch_cur_x += increment
 
         elif nx_graph.nodes[node]['type'] == 'Controller':
             y = switch_y + 3  # cont_y
-            x = last_switch_x
-            last_switch_x += 3
+            #x = last_switch_x+5
+            #last_switch_x += 10
+            x = cont_cur_x
+            cont_cur_x += increment
         else:
-            start_x += len(nx_graph.nodes[node]['name']) * 25
-            if host_counter % 2 == 0:
-                y = host_y
-            else:
-                y = host_y - 2
-            x = start_x
+            #start_x += len(nx_graph.nodes[node]['name']) * 25
+            #start_x += 10
+            x = host_cur_x
+            host_cur_x += increment
+            #if host_counter % 2 == 0:
+            #    y = host_y
+            #else:
+            #    y = host_y - 2
+            #x = start_x
+            y = host_y
             host_counter += 1
 
         nx_graph.nodes[node]['pos'] = x, y
