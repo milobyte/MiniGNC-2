@@ -71,9 +71,9 @@ def make_graph(graph):
     # host_cur_x = 5
     # increment = 5
 
-    pos = nx.kamada_kawai_layout(nx_graph, weight = None)
-    for n, p in pos.items():
-        nx_graph.nodes[n]['pos'] = p
+    position_dict = nx.kamada_kawai_layout(nx_graph, weight = None)
+    for node, position in position_dict.items():
+        nx_graph.nodes[node]['pos'] = position
 
     for node in nx_graph.nodes():
 
