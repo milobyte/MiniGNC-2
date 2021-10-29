@@ -298,6 +298,14 @@ def save_database():
     temp = app.test1()
     print(temp.values())
 
+def remove_host(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for host in graph['hosts']:
+        if host.get_name() == node.get('name'):
+            print("Found node")
+            return
 
 def main():
     """

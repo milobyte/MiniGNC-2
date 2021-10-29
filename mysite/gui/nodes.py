@@ -52,6 +52,13 @@ class Host:
         """
         return self.ip
 
+    def get_name(self):
+        """
+        Getter for the name of a host
+        :return: name The name of the host
+        """
+        return self.name
+
 
 class Switch:
     def __init__(self, name):

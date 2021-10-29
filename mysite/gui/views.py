@@ -137,6 +137,19 @@ def home(request):
                         if item.get('_id') == second_index:
                             second = item.get('name')
                     graph_nodes['links'].append(nodes.Link(first, second))
+    
+    #  This is the logic for when the remove_data button is clicked
+    elif request.GET.get('remove_databtn'):
+        file = request.GET.get('remove_databtn')
+        path = str(Path.home()) + "/Desktop/" + file
+        full_list = []
+
+        with open(path, newline='') as csv_file:
+            csv_r = csv.DictReader(csv_file)
+
+            for row in csv_r:
+                # graph_nodes = buttons.remove_node(row, graph_nodes)
+                buttons.remove_host(row, graph_nodes)
 
     elif request.GET.get('iperf_btn'):
         host1 = request.GET.get('iperf_host1_name')
