@@ -304,7 +304,38 @@ def remove_host(node, graph):
     """
     for host in graph['hosts']:
         if host.get_name() == node.get('name'):
-            print("Found node")
+            graph['hosts'].remove(host)
+            print(str(host.get_name()) + " removed")
+            return
+
+def remove_switch(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for switch in graph['switches']:
+        if switch.get_name() == node.get('name'):
+            graph['switches'].remove(switch)
+            print(str(switch.get_name()) + " removed")
+            return
+
+def remove_controller(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for controller in graph['controllers']:
+        if controller.get_name() == node.get('name'):
+            graph['controllers'].remove(controller)
+            print(str(controller.get_name()) + " removed")
+            return
+
+def remove_links(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for host in graph['hosts']:
+        if host.get_name() == node.get('name'):
+            graph['hosts'].remove(host)
+            print(str(host.get_name()) + " removed")
             return
 
 def main():

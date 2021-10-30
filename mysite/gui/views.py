@@ -149,7 +149,15 @@ def home(request):
 
             for row in csv_r:
                 # graph_nodes = buttons.remove_node(row, graph_nodes)
-                buttons.remove_host(row, graph_nodes)
+                if row['_labels'] != "":
+                    if row['type'] == 'host':
+                        buttons.remove_host(row, graph_nodes)
+                    elif row['type'] == 'switch':
+                        buttons.remove_switch(row, graph_nodes)
+                    elif row['type'] == 'controller':
+                        buttons.remove_controller(row, graph_nodes)
+            
+            print(graph_nodes)
 
     elif request.GET.get('iperf_btn'):
         host1 = request.GET.get('iperf_host1_name')

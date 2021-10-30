@@ -89,6 +89,13 @@ class Switch:
         :return: the text to add a switch to a file
         """
         return self.name + " = net.addSwitch( '" + self.name + "' )\n"
+    
+    def get_name(self):
+        """
+        Getter for the name of a switch
+        :return: name The name of the switch
+        """
+        return self.name
 
 
 class Controller:
@@ -120,6 +127,13 @@ class Controller:
         :return: the text to add a controller to a file
         """
         return self.name + " = net.addController( '" + self.name + "' )\n"
+
+    def get_name(self):
+        """
+        Getter for the name of a controller
+        :return: name The name of the controller
+        """
+        return self.name
 
 
 class Link:
