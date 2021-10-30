@@ -148,7 +148,7 @@ def home(request):
             csv_r = csv.DictReader(csv_file)
 
             for row in csv_r:
-                # graph_nodes = buttons.remove_node(row, graph_nodes)
+                #removing nodes based on type                
                 if row['_labels'] != "":
                     if row['type'] == 'host':
                         buttons.remove_host(row, graph_nodes)
@@ -156,6 +156,11 @@ def home(request):
                         buttons.remove_switch(row, graph_nodes)
                     elif row['type'] == 'controller':
                         buttons.remove_controller(row, graph_nodes)
+                #removing links specified in csv file
+                if row['_start'] != "":
+                    first_name = row.get('_start')
+                    second_name = row.get('_end')
+                    buttons.remove_links(first_name, second_name, graph_nodes)
             
             print(graph_nodes)
 

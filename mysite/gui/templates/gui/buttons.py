@@ -306,6 +306,7 @@ def remove_host(node, graph):
         if host.get_name() == node.get('name'):
             graph['hosts'].remove(host)
             print(str(host.get_name()) + " removed")
+            remove_assoc_links(node, graph)
             return
 
 def remove_switch(node, graph):
@@ -316,6 +317,7 @@ def remove_switch(node, graph):
         if switch.get_name() == node.get('name'):
             graph['switches'].remove(switch)
             print(str(switch.get_name()) + " removed")
+            remove_assoc_links(node, graph)
             return
 
 def remove_controller(node, graph):
@@ -326,17 +328,24 @@ def remove_controller(node, graph):
         if controller.get_name() == node.get('name'):
             graph['controllers'].remove(controller)
             print(str(controller.get_name()) + " removed")
+            remove_assoc_links(node, graph)
             return
 
-def remove_links(node, graph):
+def remove_links(first_name, second_name, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
     """
-    for host in graph['hosts']:
-        if host.get_name() == node.get('name'):
-            graph['hosts'].remove(host)
-            print(str(host.get_name()) + " removed")
+    for link in graph['links']:
+        if ((link.first == first_name) or (link.first == second_name)) and ((link.second == first_name) or (link.second == second_name)):
+            graph['links'].remove(link)
+            print("Link between " + first_name + " and " + second_name + " removed")
             return
+
+def remove_assoc_links(node, graph):
+    """
+    This method removes any links associated with a node
+    """
+    return
 
 def main():
     """
