@@ -345,6 +345,10 @@ def remove_assoc_links(node, graph):
     """
     This method removes any links associated with a node
     """
+    for link in graph['links']:
+        if ((link.first == node.get('name')) or (link.second == node.get('name'))):
+            graph['links'].remove(link)
+            print("Link between " + link.first + " and " + link.second + " removed")
     return
 
 def main():
