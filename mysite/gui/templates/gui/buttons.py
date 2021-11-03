@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 import subprocess
 import importlib.util
+import copy
 
 """
 This file handles the logic when a button is pressed on our GUI
@@ -345,10 +346,19 @@ def remove_assoc_links(node, graph):
     """
     This method removes any links associated with a node
     """
-    for link in graph['links']:
+    # if(node.get('name') == "hr1"):
+    #     print("Printing links remaining")
+    #     print(graph['links'])
+    for link in copy.deepcopy(graph['links']):
+        print("Comparing " + node.get('name') + " to " + link.first + " and " + link.second)
         if ((link.first == node.get('name')) or (link.second == node.get('name'))):
-            graph['links'].remove(link)
-            print("Link between " + link.first + " and " + link.second + " removed")
+            # error here
+            # graph['links'].remove(link)
+
+            # Is there a more efficient solution?
+            remove_links(link.first, link.second, graph)
+
+            # print("Link between " + link.first + " and " + link.second + " removed")
     return
 
 def main():
