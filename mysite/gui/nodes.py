@@ -146,6 +146,7 @@ class Link:
         """
         self.first = first
         self.second = second
+        self.bandwidth = None
 
     def __str__(self):
         """
@@ -174,6 +175,21 @@ class Link:
         :return: a tuple containing the first and second item
         """
         return tuple((self.first, self.second))
+
+    def set_bandwidth(self, bandwidth):
+        """
+        Sets a value to the bandwidth limit of a link (measured in megabits per second)
+        :param bandwidth: the Mbps of bandwidth that a link has
+        :return: None
+        """
+        self.bandwidth = bandwidth
+
+    def get_bandwidth(self):
+        """
+        Returns the Mbps of bandwidth set for a link if initialized
+        :return: Mbps of bandwidth of a link or None if bandwidth was not initialized
+        """
+        return self.bandwidth
 
 
 graph = {
