@@ -147,6 +147,7 @@ class Link:
         self.first = first
         self.second = second
         self.bandwidth = None
+        self.delay = None
 
     def __str__(self):
         """
@@ -167,10 +168,13 @@ class Link:
         Automates the text to add a link to a file
         :return: the text to add a link to a file
         """
+        # Use String building? 
         if self.bandwidth == None: 
             return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
-        else:
+        elif self.delay == None:
             return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "', bw = " + self.bandwidth + ")\n"
+        else: 
+            return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "', bw = " + self.bandwidth + ", delay = '" + self.delay + "' )\n"
 
     def to_tuple(self):
         """
@@ -195,6 +199,23 @@ class Link:
         :return: Mbps of bandwidth of a link or None if bandwidth was not initialized
         """
         return self.bandwidth
+
+    def set_delay(self, delay):
+        """
+        Sets a value to the transmission delay of a link (measured in milliseconds)
+        :param delay: the transmission delay a link has (measured in milliseconds)
+        :return: None
+        """
+        # SET RESTRICTIONS
+        print("DELAY: " + delay + " ADDED")
+        self.delay = delay
+
+    def get_delay(self):
+        """
+        Returns the value to the transmission delay of a link if initialized
+        :return: value to the transmission delay of a link or None if delay was not initialized
+        """
+        return self.delay
 
 
 graph = {

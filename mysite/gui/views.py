@@ -82,11 +82,13 @@ def home(request):
         first = request.GET.get('add_first_link')
         second = request.GET.get('add_second_link')
         bandwidth = request.GET.get('add_bandwidth')
+        delay = request.GET.get('add_delay')
         link = nodes.Link(first, second)
-
         if bandwidth != 'default':
             link.set_bandwidth(bandwidth)
-            
+        if delay != 'default':
+            link.set_delay(delay)
+
         graph_nodes['links'].append(link)
 
     # This is the logic for when the graph button is clicked
