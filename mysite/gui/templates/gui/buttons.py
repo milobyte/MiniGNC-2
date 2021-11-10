@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 import subprocess
 import importlib.util
+import copy
 
 """
 This file handles the logic when a button is pressed on our GUI
@@ -298,6 +299,67 @@ def save_database():
     temp = app.test1()
     print(temp.values())
 
+def remove_host(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for host in graph['hosts']:
+        if host.get_name() == node.get('name'):
+            graph['hosts'].remove(host)
+            print(str(host.get_name()) + " removed")
+            remove_assoc_links(node, graph)
+            return
+
+def remove_switch(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for switch in graph['switches']:
+        if switch.get_name() == node.get('name'):
+            graph['switches'].remove(switch)
+            print(str(switch.get_name()) + " removed")
+            remove_assoc_links(node, graph)
+            return
+
+def remove_controller(node, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for controller in graph['controllers']:
+        if controller.get_name() == node.get('name'):
+            graph['controllers'].remove(controller)
+            print(str(controller.get_name()) + " removed")
+            remove_assoc_links(node, graph)
+            return
+
+def remove_links(first_name, second_name, graph):
+    """
+    This method removes a node from the graph by checking for equivilant attributes within a list
+    """
+    for link in graph['links']:
+        if ((link.first == first_name) or (link.first == second_name)) and ((link.second == first_name) or (link.second == second_name)):
+            graph['links'].remove(link)
+            print("Link between " + first_name + " and " + second_name + " removed")
+            return
+
+def remove_assoc_links(node, graph):
+    """
+    This method removes any links associated with a node
+    """
+    # if(node.get('name') == "hr1"):
+    #     print("Printing links remaining")
+    #     print(graph['links'])
+    for link in copy.deepcopy(graph['links']):
+        print("Comparing " + node.get('name') + " to " + link.first + " and " + link.second)
+        if ((link.first == node.get('name')) or (link.second == node.get('name'))):
+            # error here
+            # graph['links'].remove(link)
+
+            # Is there a more efficient solution?
+            remove_links(link.first, link.second, graph)
+
+            # print("Link between " + link.first + " and " + link.second + " removed")
+    return
 
 def main():
     """
