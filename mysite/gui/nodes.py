@@ -167,7 +167,10 @@ class Link:
         Automates the text to add a link to a file
         :return: the text to add a link to a file
         """
-        return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
+        if self.bandwidth == None: 
+            return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
+        else:
+            return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "', bw = " + self.bandwidth + ")\n"
 
     def to_tuple(self):
         """
@@ -182,6 +185,8 @@ class Link:
         :param bandwidth: the Mbps of bandwidth that a link has
         :return: None
         """
+        # SET RESTRICTIONS
+        print("BANDWIDTH: " + bandwidth + " ADDED")
         self.bandwidth = bandwidth
 
     def get_bandwidth(self):

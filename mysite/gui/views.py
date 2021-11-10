@@ -81,7 +81,12 @@ def home(request):
     elif request.GET.get('add_link_btn'):
         first = request.GET.get('add_first_link')
         second = request.GET.get('add_second_link')
+        bandwidth = request.GET.get('add_bandwidth')
         link = nodes.Link(first, second)
+
+        if bandwidth != 'default':
+            link.set_bandwidth(bandwidth)
+            
         graph_nodes['links'].append(link)
 
     # This is the logic for when the graph button is clicked
