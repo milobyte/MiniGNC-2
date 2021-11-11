@@ -10,7 +10,9 @@ import copy
 This file handles the logic when a button is pressed on our GUI
 __author__ Cade Tipton
 __author__ Gatlin Cruz
-__version__ 9/15/20
+__author__ Noah Lowry
+__author__ Miles Stanley
+__version__ 11/10/2021
 """
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
@@ -249,7 +251,7 @@ def run_mininet(extra):
 
 
 
-    sudo_pw = "Mininet"
+    sudo_pw = "mininet"
     command = "python2 " + path + "new_file.py"
     command = command.split()
 

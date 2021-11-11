@@ -207,8 +207,8 @@ class Link:
         :return: None
         """
         # SET RESTRICTIONS
-        print("DELAY: " + delay + " ADDED")
         self.delay = delay
+        print("DELAY: " + delay + " ADDED")
 
     def get_delay(self):
         """

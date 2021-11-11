@@ -137,14 +137,24 @@ def home(request):
                 if row['_start'] != "":
                     first_index = row.get('_start')
                     second_index = row.get('_end')
+
                     for item in full_list:
                         if item.get('_id') == first_index:
                             first = item.get('name')
                     for item in full_list:
                         if item.get('_id') == second_index:
                             second = item.get('name')
-                    graph_nodes['links'].append(nodes.Link(first, second))
-    
+                    link = nodes.Link(first, second)
+                    graph_nodes['links'].append(link)
+                    
+                    if row['_bw'] != "":
+                        bandwidth = row.get('_bw')
+                        link.set_bandwidth(bandwidth)
+                    
+                    if row['_delay'] != "":
+                        delay = row.get('_delay')
+                        link.set_delay(delay)
+
     #  This is the logic for when the remove_data button is clicked
     elif request.GET.get('remove_databtn'):
         file = request.GET.get('remove_databtn')
