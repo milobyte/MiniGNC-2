@@ -212,7 +212,8 @@ def make_file(graph):
 
     path = str(Path.home()) + "/Desktop/"
     new_file = open(path + "new_file.py", "w+")
-    new_file.write("from mininet.net import Mininet\nfrom mininet.cli import CLI\nnet = Mininet()\n")
+    new_file.write("from mininet.net import Mininet\nfrom mininet.cli import CLI\n"
+                   "from mininet.link import TCLink\nnet = Mininet(link=TCLink)\n")
 
     for key in graph.keys():
         for node in graph.get(key):
@@ -251,7 +252,7 @@ def run_mininet(extra):
 
 
 
-    sudo_pw = "mininet"
+    sudo_pw = "Mininet"
     command = "python2 " + path + "new_file.py"
     command = command.split()
 
