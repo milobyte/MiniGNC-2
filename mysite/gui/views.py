@@ -83,11 +83,17 @@ def home(request):
         second = request.GET.get('add_second_link')
         bandwidth = request.GET.get('add_bandwidth')
         delay = request.GET.get('add_delay')
+        loss = request.GET.get('add_loss')
+        queue_size = request.GET.get('add_queue_size')
         link = nodes.Link(first, second)
         if bandwidth != 'default':
             link.set_bandwidth(bandwidth)
         if delay != 'default':
             link.set_delay(delay)
+        if loss != 'default':
+            link.set_loss(loss)
+        if queue_size != 'default':
+            link.set_queue_size(queue_size)
 
         graph_nodes['links'].append(link)
 
