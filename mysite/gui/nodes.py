@@ -146,8 +146,8 @@ class Link:
         """
         self.first = first
         self.second = second
-        self.bandwidth = None
-        self.delay = None
+        self.bandwidth = 10 
+        self.delay = '0ms'
         self.loss = None
         self.max_queue_size = None
 

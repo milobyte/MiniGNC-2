@@ -88,7 +88,7 @@ def home(request):
         link = nodes.Link(first, second)
         if bandwidth != 'default':
             link.set_bandwidth(bandwidth)
-        if delay != 'default':
+        if delay != 'default' and ((delay[-2:]) == 'ms'):
             link.set_delay(delay)
         if loss != 'default':
             link.set_loss(loss)

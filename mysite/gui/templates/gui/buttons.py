@@ -62,59 +62,21 @@ def make_graph(graph):
 
     node_x = []
     node_y = []
-    # start_x = 1
-    # host_y = 1
-    # last_switch_x = -1
-    # switch_y = 5
-    # cont_y = 8
-    # host_counter = 0
 
-    # switch_cur_x = 5
-    # cont_cur_x = 5
-    # host_cur_x = 5
-    # increment = 5
-
+    # Using NetworkX's Kamada Kawai layout to generate positions for graph nodes. 
+    # For more information on how this works, look into Force directed graphs.
     position_dict = nx.kamada_kawai_layout(nx_graph, weight = None)
     for node, position in position_dict.items():
         nx_graph.nodes[node]['pos'] = position
 
+    # Assigns positions to node_x and node_y lists
     for node in nx_graph.nodes():
-
-        # if nx_graph.nodes[node]['type'] == 'Switch':
-        #     y = switch_y
-        #     #switch_cur_x += 10
-        #     #switch_y += 1
-        #     #x = start_x
-        #     x = switch_cur_x
-        #     switch_cur_x += increment
-
-        # elif nx_graph.nodes[node]['type'] == 'Controller':
-        #     y = switch_y + 3  # cont_y
-        #     #x = last_switch_x+5
-        #     #last_switch_x += 10
-        #     x = cont_cur_x
-        #     cont_cur_x += increment
-        # else:
-        #     #start_x += len(nx_graph.nodes[node]['name']) * 25
-        #     #start_x += 10
-        #     x = host_cur_x
-        #     host_cur_x += increment
-        #     #if host_counter % 2 == 0:
-        #     #    y = host_y
-        #     #else:
-        #     #    y = host_y - 2
-        #     #x = start_x
-        #     y = host_y
-        #     host_counter += 1
-
-        # 'pos' must be defined by x,y
-        # nx_graph.nodes[node]['pos'] = x, y     
-        # x, y = nx_graph.nodes[node]['pos']
     
         x, y = nx_graph.nodes[node]['pos']
         node_x.append(x)
         node_y.append(y)
 
+    # Graphs the nodes based on the positions provided and other parameters
     node_trace = go.Scatter(
         x=node_x, y=node_y,
         mode='markers',
@@ -135,6 +97,7 @@ def make_graph(graph):
         ),
     )
 
+    # Declaring and defining edges within the network
     edge_x = []
     edge_y = []
     for edge in nx_graph.edges():
@@ -147,6 +110,7 @@ def make_graph(graph):
         edge_y.append(y1)
         edge_y.append(None)
 
+    # Graphing the edges
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
         line=dict(width=.5, color='black'),
@@ -212,14 +176,17 @@ def make_file(graph):
 
     path = str(Path.home()) + "/Desktop/"
     new_file = open(path + "new_file.py", "w+")
+    # Writing the initial imports needed for our Mininet functions to work
     new_file.write("from mininet.net import Mininet\nfrom mininet.cli import CLI\n"
                    "from mininet.link import TCLink\nnet = Mininet(link=TCLink)\n")
 
+    # By key, navigate through the network and write the Mininet code needed to new_file.py
     for key in graph.keys():
         for node in graph.get(key):
             new_file.write(node.add_to_file())
         new_file.write("\n")
 
+    # Sets IP within Mininet for each host
     for host in graph.get('hosts'):
         # for link in graph.get('links'):
         #     if host.name == link.first or host.name == link.second:
@@ -230,13 +197,19 @@ def get_mininet_file():
     path = str(Path.home()) + "/Desktop/"
     return open(path + "new_file.py", "a")
 
-
+# Measures latency
 def add_ping_all():
+    """
+    Method to test the latency for all nodes.
+    """
     new_file = get_mininet_file()
     new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
 
-
+# Measures throughput
 def add_iperf(host1, host2):
+    """
+    Method to test the throughput between two hosts.
+    """
     new_file = get_mininet_file()
     new_file.write("\nnet.start()\nnet.iperf([" + host1 + ", " + host2 + "])\nnet.stop()\n")
 
