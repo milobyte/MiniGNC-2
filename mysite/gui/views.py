@@ -157,9 +157,17 @@ def home(request):
                         bandwidth = row.get('_bw')
                         link.set_bandwidth(bandwidth)
                     
-                    if row['_delay'] != "":
+                    if row['_delay'] != "" and ((delay[-2:]) == 'ms'):
                         delay = row.get('_delay')
                         link.set_delay(delay)
+
+                    if row['_loss'] != "":
+                        loss = row.get('_loss')
+                        link.set_loss(loss)
+
+                    if row['_queue'] != "":
+                        queue = row.get('_queue')
+                        link.set_queue_size(queue)
 
     #  This is the logic for when the remove_data button is clicked
     elif request.GET.get('remove_databtn'):
