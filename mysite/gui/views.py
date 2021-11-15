@@ -110,7 +110,7 @@ def home(request):
         buttons.clear_output(extra_text)
 
     # This is the logic for when the ping button is clicked
-    elif request.GET.get('pingbtn'):
+    elif request.GET.get('pingallbtn'):
         buttons.make_file(graph_nodes)
         buttons.add_ping_all()
         buttons.run_mininet(extra_text)
@@ -193,6 +193,14 @@ def home(request):
 
         buttons.make_file(graph_nodes)
         buttons.add_iperf(host1, host2)
+        buttons.run_mininet(extra_text)
+
+    elif request.GET.get('ping_btn'):
+        host1 = request.GET.get('ping_host1_name')
+        host2 = request.GET.get('ping_host2_name')
+
+        buttons.make_file(graph_nodes)
+        buttons.add_ping(host1, host2)
         buttons.run_mininet(extra_text)
 
     return render(request, 'gui/gui.html', context)

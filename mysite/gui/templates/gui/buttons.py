@@ -198,6 +198,14 @@ def get_mininet_file():
     return open(path + "new_file.py", "a")
 
 # Measures latency
+def add_ping(host1, host2):
+    """
+    Method to test the latency between two hosts.
+    """
+    new_file = get_mininet_file()
+    new_file.write("\nnet.start()\nnet.ping([" + host1 + ", " + host2 + "])\nnet.stop()\n")
+
+# Measures latency
 def add_ping_all():
     """
     Method to test the latency for all nodes.
