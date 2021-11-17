@@ -201,7 +201,10 @@ def home(request):
 
         buttons.make_file(graph_nodes)
         buttons.add_iperf(host1, host2)
-        buttons.run_mininet(extra_text)
+        output = buttons.run_mininet(extra_text)
+        # print("This is the data: " + data)
+        # output = "Completed"
+        add_iperf_info(host1, host2, output)
 
     elif request.GET.get('ping_btn'):
         host1 = request.GET.get('ping_host1_name')
@@ -209,10 +212,32 @@ def home(request):
 
         buttons.make_file(graph_nodes)
         buttons.add_ping(host1, host2)
-        buttons.run_mininet(extra_text)
+        output = "***Ping: " + buttons.run_mininet(extra_text)
+        # print("This is the data: " + data)
+        # output = "Completed"
+        add_ping_info(host1, host2, output)
 
     return render(request, 'gui/gui.html', context)
 
+def add_iperf_info(host1, host2, output):
+    print("")
+
+    first_host = get_host(host1)
+    second_host = get_host(host2)
+    first_host.set_link_log('iperf', output)
+    second_host.set_link_log('iperf', output)
+
+def add_ping_info(host1, host2, output):
+    print("")
+    first_host = get_host(host1)
+    second_host = get_host(host2)
+    first_host.set_link_log('ping', output) 
+    second_host.set_link_log('ping', output)
+
+def get_host(host):
+    for new_host in graph_nodes['hosts']:
+        if new_host.name == host:
+            return new_host
 
 def graph(request):
     """
