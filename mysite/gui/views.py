@@ -10,7 +10,9 @@ This files is a generated file from Django that we use
 to receive feedback from the GUI
 __author__: Gatlin Cruz
 __author__: Cade Tipton
-__version__: 9/15/20
+__author__: Noah Lowry
+__author__: Miles Stanley
+__version__: 12/2/21
 """
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -195,6 +197,7 @@ def home(request):
             
             print(graph_nodes)
 
+    #Logic for when the iPerf button is clicked for testing bandwidth
     elif request.GET.get('iperf_btn'):
         host1 = request.GET.get('iperf_host1_name')
         host2 = request.GET.get('iperf_host2_name')
@@ -202,10 +205,9 @@ def home(request):
         buttons.make_file(graph_nodes)
         buttons.add_iperf(host1, host2)
         output = buttons.run_mininet(extra_text)
-        # print("This is the data: " + data)
-        # output = "Completed"
         add_iperf_info(host1, host2, output)
 
+    #Logic for when the Ping button is clicked for testing latency
     elif request.GET.get('ping_btn'):
         host1 = request.GET.get('ping_host1_name')
         host2 = request.GET.get('ping_host2_name')
@@ -213,13 +215,18 @@ def home(request):
         buttons.make_file(graph_nodes)
         buttons.add_ping(host1, host2)
         output = "***Ping: " + buttons.run_mininet(extra_text)
-        # print("This is the data: " + data)
-        # output = "Completed"
         add_ping_info(host1, host2, output)
 
     return render(request, 'gui/gui.html', context)
 
 def add_iperf_info(host1, host2, output):
+    """
+    Sets the iPerf log for each host to the most recent iPerf output
+    :param host1: The first host involved in the bandwidth test
+    :param host2: The second host involved in the bandwidth test
+    :param output: The output of the bandwidth test to be set within each host's link log
+    :return: None
+    """
     print("")
 
     first_host = get_host(host1)
@@ -228,6 +235,13 @@ def add_iperf_info(host1, host2, output):
     second_host.set_link_log('iperf', output)
 
 def add_ping_info(host1, host2, output):
+    """
+    Sets the Ping log for each host to the most recent Ping output
+    :param host1: The first host involved in the ping test
+    :param host2: The second host involved in the ping test
+    :param output: The output of the ping test to be set within each host's link log
+    :return: None
+    """
     print("")
     first_host = get_host(host1)
     second_host = get_host(host2)
@@ -235,6 +249,11 @@ def add_ping_info(host1, host2, output):
     second_host.set_link_log('ping', output)
 
 def get_host(host):
+    """
+    Gets a host object based on the host name provided
+    :param host: the host name of the host to return
+    :return: the host object with the same name as the parameter provided
+    """
     for new_host in graph_nodes['hosts']:
         if new_host.name == host:
             return new_host

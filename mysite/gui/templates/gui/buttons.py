@@ -8,11 +8,11 @@ import copy
 
 """
 This file handles the logic when a button is pressed on our GUI
-__author__ Cade Tipton
-__author__ Gatlin Cruz
-__author__ Noah Lowry
-__author__ Miles Stanley
-__version__ 11/10/2021
+__author__: Gatlin Cruz
+__author__: Cade Tipton
+__author__: Noah Lowry
+__author__: Miles Stanley
+__version__: 12/2/21
 """
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
@@ -166,8 +166,7 @@ def clear_output(extra):
 def make_file(graph):
     """
     Creates a Python file that represents a network using Mininet
-    args:
-       graph: The graph list with the values for the network
+    :param graph: The graph list with the values for the network
     """
 
     path = str(Path.home()) + "/Desktop/"
@@ -190,6 +189,9 @@ def make_file(graph):
 
 
 def get_mininet_file():
+    """
+    Returns a reference to the new file used to run Mininet commands
+    """
     path = str(Path.home()) + "/Desktop/"
     return open(path + "new_file.py", "a")
 
@@ -221,8 +223,8 @@ def add_iperf(host1, host2):
 def run_mininet(extra):
     """
     Method to run Mininet in the background so the user can run commands through it
-    args:
-       extra: The holder for the results to be stored to
+    :param extra: The holder for the results to be stored to
+    :return: None
     """
 
     path = str(Path.home()) + "/Desktop/"
@@ -248,6 +250,12 @@ def run_mininet(extra):
 
 
 def add_to_database(graph, graph_name):
+    """
+    Creates a CSV file representing the network using Neo4j
+    :param graph: The graph list with the values for the network
+    :param graph_name: The name of the graph
+    :return: None
+    """
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
     user = "neo4j"
