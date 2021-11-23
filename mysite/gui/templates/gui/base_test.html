@@ -41,33 +41,45 @@
     </nav>
 </header>
 
-<div class="content-section box_background_color" style="width:18%; float: left; margin: 10px 0px 0px 100px; height: 500px">
+<div class="content-section box_background_color" style="width:18%; float: left; margin: 10px 0px 0px 100px; height: 700px">
     <h2 class="color" style="margin-bottom:20px" align="center">Graph Setup</h2>
     <div class="btn-group" style="display: inline-block; margin-bottom:10px">
 
         <form action="#" method="get">
             <input type="submit" value="Add Host" name="add_host_btn" style="margin-bottom: 8px">
-            <input type="text" value="h1" id="add_host_name" name="add_host_name" size="4" />
+            <input type="text" value="" id="add_host_name" name="add_host_name" size="4" />
             <input type="text" value="127.0.0.1" id="add_host_ip" name="add_host_ip" size="12" />
         </form>
 
         <form action="#" method="get">
             <input type="submit" value="Add Switch" name="add_switch_btn" style="margin-bottom: 8px">
-            <input type="text" value="s1" id="add_switch_name" name="add_switch_name" size="4" />
+            <input type="text" value="" id="add_switch_name" name="add_switch_name" size="4" />
             <!--<input type="text" value="127.0.0.1" id="add_switch_ip" name="add_host_ip" size="12" />-->
         </form>
 
         <form action="#" method="get">
             <input type="submit" value="Add Controller" name="add_controller_btn" style="margin-bottom: 8px">
-            <input type="text" value="c1" id="add_controller_name" name="add_controller_name" size="4" />
+            <input type="text" value="" id="add_controller_name" name="add_controller_name" size="4" />
             <!--<input type="text" value="127.0.0.1" id="add_controller_ip" name="add_host_ip" size="12" />-->
         </form>
 
         <form action="#" method="get">
             <input type="submit" value="Add Link" name="add_link_btn" style="margin-bottom: 8px">
-            <input type="text" value="h1" id="add_first_link" name="add_first_link" size="4" />
+            <input type="text" value="" id="add_first_link" name="add_first_link" size="4" />
             <p style="display: inline-block; color: #ffffff"><-></p>
-            <input type="text" value="s1" id="add_second_link" name="add_second_link" size="4" />
+            <input type="text" value="" id="add_second_link" name="add_second_link" size="4" />
+       	    <br> 
+	    <p style="display: inline-block; color: #ffffff">Bandwidth: </p>
+            <input type="text" value="default" id="add_bandwidth" name="add_bandwidth" size="4" />
+	    <br>
+            <p style="display: inline-block; color: #ffffff">Delay: </p>
+            <input type="text" value="default" id="add_delay" name="add_delay" size="4" />
+	    <br>
+	    <p style="display: inline-block; color: #ffffff">Loss: </p>
+            <input type="text" value="default" id="add_loss" name="add_loss" size="4" />
+	    <br>
+	    <p style="display: inline-block; color: #ffffff">Queue Size: </p>
+            <input type="text" value="default" id="add_queue_size" name="add_queue_size" size="4" />
         </form>
         <form action="#" method="get">
             <input type="submit" value="Generate Graph" name="graphbtn" style="margin-bottom: 8px">
@@ -86,19 +98,25 @@
             <input type="text" value="h2" id="iperf_host2_name" name="iperf_host2_name" size="4" />
         </form>
         <form action="#" method="get">
-            <input type="submit" onclick="ping_all_alert()" value="Ping All" name="pingbtn" id="pingbtn" style="margin-top: 10px">
+            <input style="margin-top:5px" onclick="ping_alert()" type="submit" value="Ping" name="ping_btn" id="ping_btn">
+            <input type="text" value="h1" id="ping_host1_name" name="ping_host1_name" size="4" />
+            <p style="display: inline-block; color: #ffffff"><-></p>
+            <input type="text" value="h2" id="ping_host2_name" name="ping_host2_name" size="4" />
+        </form>
+        <form action="#" method="get">
+            <input type="submit" onclick="ping_all_alert()" value="Ping All" name="pingallbtn" id="pingallbtn" style="margin-top: 10px">
         </form>
 
         <!--<hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray">-->
     </div>
 </div>
 
-<div class="content-section box_background_color" id="info" style="width:18%; float:left; margin: 10px 0px 0px 50px; overflow: auto; height: 500px">
+<div class="content-section box_background_color" id="info" style="width:18%; float:left; margin: 10px 0px 0px 50px; overflow: auto; height: 700px">
     <h2 class="color" style="margin-bottom:20px" align="center">Graph Information</h2>
         {% block content %}{% endblock %}
 </div>
 
-<div class="content-section box_background_color" id="database" style="width:16%; float:left; margin: 10px 0px 0px 50px; height: 500px">
+<div class="content-section box_background_color" id="database" style="width:16%; float:left; margin: 10px 0px 0px 50px; height: 700px">
     <h2 class="color" style="margin-bottom:20px" align="center">Database Menu</h2>
     <form action="#" method="get">
         <label class="color">Choose a name for the database:</label>
@@ -147,6 +165,10 @@
 
     function iperf_alert() {
         alert("Testing bandwidth over 5 seconds...");
+    }
+
+    function ping_alert() {
+        alert("Pinging between hosts, may take a while with large networks...");
     }
 
     function ping_all_alert() {

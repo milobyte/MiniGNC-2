@@ -81,7 +81,20 @@ def home(request):
     elif request.GET.get('add_link_btn'):
         first = request.GET.get('add_first_link')
         second = request.GET.get('add_second_link')
+        bandwidth = request.GET.get('add_bandwidth')
+        delay = request.GET.get('add_delay')
+        loss = request.GET.get('add_loss')
+        queue_size = request.GET.get('add_queue_size')
         link = nodes.Link(first, second)
+        if bandwidth != 'default':
+            link.set_bandwidth(bandwidth)
+        if delay != 'default' and ((delay[-2:]) == 'ms'):
+            link.set_delay(delay)
+        if loss != 'default':
+            link.set_loss(loss)
+        if queue_size != 'default':
+            link.set_queue_size(queue_size)
+
         graph_nodes['links'].append(link)
 
     # This is the logic for when the graph button is clicked
@@ -97,7 +110,7 @@ def home(request):
         buttons.clear_output(extra_text)
 
     # This is the logic for when the ping button is clicked
-    elif request.GET.get('pingbtn'):
+    elif request.GET.get('pingallbtn'):
         buttons.make_file(graph_nodes)
         buttons.add_ping_all()
         buttons.run_mininet(extra_text)
@@ -130,14 +143,32 @@ def home(request):
                 if row['_start'] != "":
                     first_index = row.get('_start')
                     second_index = row.get('_end')
+
                     for item in full_list:
                         if item.get('_id') == first_index:
                             first = item.get('name')
                     for item in full_list:
                         if item.get('_id') == second_index:
                             second = item.get('name')
-                    graph_nodes['links'].append(nodes.Link(first, second))
-    
+                    link = nodes.Link(first, second)
+                    graph_nodes['links'].append(link)
+                    
+                    if row['_bw'] != "":
+                        bandwidth = row.get('_bw')
+                        link.set_bandwidth(bandwidth)
+                    
+                    if row['_delay'] != "" and ((delay[-2:]) == 'ms'):
+                        delay = row.get('_delay')
+                        link.set_delay(delay)
+
+                    if row['_loss'] != "":
+                        loss = row.get('_loss')
+                        link.set_loss(loss)
+
+                    if row['_queue'] != "":
+                        queue = row.get('_queue')
+                        link.set_queue_size(queue)
+
     #  This is the logic for when the remove_data button is clicked
     elif request.GET.get('remove_databtn'):
         file = request.GET.get('remove_databtn')
@@ -170,10 +201,43 @@ def home(request):
 
         buttons.make_file(graph_nodes)
         buttons.add_iperf(host1, host2)
-        buttons.run_mininet(extra_text)
+        output = buttons.run_mininet(extra_text)
+        # print("This is the data: " + data)
+        # output = "Completed"
+        add_iperf_info(host1, host2, output)
+
+    elif request.GET.get('ping_btn'):
+        host1 = request.GET.get('ping_host1_name')
+        host2 = request.GET.get('ping_host2_name')
+
+        buttons.make_file(graph_nodes)
+        buttons.add_ping(host1, host2)
+        output = "***Ping: " + buttons.run_mininet(extra_text)
+        # print("This is the data: " + data)
+        # output = "Completed"
+        add_ping_info(host1, host2, output)
 
     return render(request, 'gui/gui.html', context)
 
+def add_iperf_info(host1, host2, output):
+    print("")
+
+    first_host = get_host(host1)
+    second_host = get_host(host2)
+    first_host.set_link_log('iperf', output)
+    second_host.set_link_log('iperf', output)
+
+def add_ping_info(host1, host2, output):
+    print("")
+    first_host = get_host(host1)
+    second_host = get_host(host2)
+    first_host.set_link_log('ping', output) 
+    second_host.set_link_log('ping', output)
+
+def get_host(host):
+    for new_host in graph_nodes['hosts']:
+        if new_host.name == host:
+            return new_host
 
 def graph(request):
     """
