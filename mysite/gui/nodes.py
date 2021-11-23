@@ -16,6 +16,10 @@ class Host:
         """
         self.name = name
         self.ip = ip
+        self.link_log = ['No IPERF data', 'No PING data']
+        self.IPERF_LOG = 0
+        self.PING_LOG = 1
+
 
     def __str__(self):
         """
@@ -58,6 +62,20 @@ class Host:
         :return: name The name of the host
         """
         return self.name
+
+    def set_link_log(self, type, output):
+        if type == 'iperf':
+            print("New iperf for " + self.name + " recorded")
+            self.link_log[self.IPERF_LOG] = output
+        elif type == 'ping':
+            print("New ping for " + self.name + " recorded")
+            self.link_log[self.PING_LOG] = output
+
+    def get_iperf_log(self):
+        return self.link_log[self.IPERF_LOG]
+
+    def get_ping_log(self):
+        return self.link_log[self.PING_LOG]
 
 
 class Switch:

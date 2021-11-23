@@ -43,6 +43,7 @@ def make_graph(graph):
     # The graph object used to build the network throughout the function
     nx_graph = nx.Graph()
 
+    # Adds links from within the network
     link_list = []
     for link in graph.get('links'):
         link_list.append(link.to_tuple())
@@ -57,7 +58,7 @@ def make_graph(graph):
         nx_graph.add_node(controller.name, type='Controller', color='blue', name=controller.name, ip="")
         print("Added controller " + controller.name)
     for host in graph.get('hosts'):
-        nx_graph.add_node(host.name, type='Host', color='red', name=host.name, ip=host.ip)
+        nx_graph.add_node(host.name, type='Host', color='red', name=host.name, ip=host.ip, links_info=host.link_log)
         print("Added host " + host.name)
 
     node_x = []
@@ -117,24 +118,19 @@ def make_graph(graph):
         hoverinfo='none',
         mode='lines')
 
+    # Determines the text to display for identifying nodes on the graph
     node_text = []
     node_color = []
     # node_size = []
     for node in nx_graph.nodes():
         if nx_graph.nodes[node]['ip'] != "":
-            node_text.append(nx_graph.nodes[node]['name'] + " | " + nx_graph.nodes[node]['ip'])  # type
+            node_text.append(nx_graph.nodes[node]['name'] + " | " + nx_graph.nodes[node]['ip'] + "<br>" + 
+            nx_graph.nodes[node]['links_info'][0] + "<br>" + nx_graph.nodes[node]['links_info'][1])  # use <br> for new lines
         else:
             node_text.append((nx_graph.nodes[node]['name']))
         node_color.append(nx_graph.nodes[node]['color'])
-        # node_size.append(len(nx_graph.nodes[node]['name']) * 25)
     node_trace.marker.color = node_color
-    # node_trace.marker.size = node_size
     node_trace.text = node_text
-    # node_trace.textfont = dict(
-    #     family="monospace",
-    #     size=32,
-    #     color="red"
-    # )
 
     fig = go.Figure(data=[edge_trace, node_trace],
                     layout=go.Layout(
@@ -247,6 +243,8 @@ def run_mininet(extra):
     errors = errors.replace("[sudo] password for mininet: ", "")
 
     extra['ping'] = errors
+
+    return errors
 
 
 def add_to_database(graph, graph_name):
