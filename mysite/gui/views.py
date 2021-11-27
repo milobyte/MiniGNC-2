@@ -101,8 +101,11 @@ def home(request):
 
     # This is the logic for when the graph button is clicked
     elif request.GET.get('graphbtn'):
-        buttons.make_graph(graph_nodes)
-        return render(request, 'gui/figure.html', context)
+        try:
+            buttons.make_graph(graph_nodes)
+            return render(request, 'gui/figure.html', context)
+        except:
+            extra_text['ping'] = "Error: Graph Generation cannot be completed. Make sure no faulty links exist within the network."
 
     # This is the logic for when the reset button is clicked
     elif request.GET.get('resetbtn'):
