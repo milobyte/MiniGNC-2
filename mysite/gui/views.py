@@ -202,24 +202,32 @@ def home(request):
         host1 = request.GET.get('iperf_host1_name')
         host2 = request.GET.get('iperf_host2_name')
 
-        buttons.make_file(graph_nodes)
-        buttons.add_iperf(host1, host2)
-        output = buttons.run_mininet(extra_text)
-        add_iperf_info(host1, host2, output)
+        host_bundle = get_hosts(host1, host2)
+        if host_bundle != None: #If both hosts exist
+            buttons.make_file(graph_nodes)
+            buttons.add_iperf(host1, host2)
+            output = buttons.run_mininet(extra_text)
+            add_iperf_info(host_bundle, output)
+        else:
+            extra_text['ping'] = "Error: At least one of the hosts provided does not exist!"
 
     #Logic for when the Ping button is clicked for testing latency
     elif request.GET.get('ping_btn'):
         host1 = request.GET.get('ping_host1_name')
         host2 = request.GET.get('ping_host2_name')
 
-        buttons.make_file(graph_nodes)
-        buttons.add_ping(host1, host2)
-        output = "***Ping: " + buttons.run_mininet(extra_text)
-        add_ping_info(host1, host2, output)
+        host_bundle = get_hosts(host1, host2)
+        if host_bundle != None: #If both hosts exist
+            buttons.make_file(graph_nodes)
+            buttons.add_ping(host1, host2)
+            output = "***Ping: " + buttons.run_mininet(extra_text)
+            add_ping_info(host_bundle, output)
+        else:
+            extra_text['ping'] = "Error: At least one of the hosts provided does not exist!"
 
     return render(request, 'gui/gui.html', context)
 
-def add_iperf_info(host1, host2, output):
+def add_iperf_info(host_bundle, output):
     """
     Sets the iPerf log for each host to the most recent iPerf output
     :param host1: The first host involved in the bandwidth test
@@ -228,13 +236,15 @@ def add_iperf_info(host1, host2, output):
     :return: None
     """
     print("")
+    HOST_1_POS = 0
+    HOST_2_POS = 1
 
-    first_host = get_host(host1)
-    second_host = get_host(host2)
+    first_host = host_bundle[HOST_1_POS]
+    second_host = host_bundle[HOST_2_POS]
     first_host.set_link_log('iperf', output)
     second_host.set_link_log('iperf', output)
 
-def add_ping_info(host1, host2, output):
+def add_ping_info(host_bundle, output):
     """
     Sets the Ping log for each host to the most recent Ping output
     :param host1: The first host involved in the ping test
@@ -243,10 +253,22 @@ def add_ping_info(host1, host2, output):
     :return: None
     """
     print("")
-    first_host = get_host(host1)
-    second_host = get_host(host2)
+    HOST_1_POS = 0
+    HOST_2_POS = 1
+
+    first_host = host_bundle[HOST_1_POS]
+    second_host = host_bundle[HOST_2_POS]
     first_host.set_link_log('ping', output) 
     second_host.set_link_log('ping', output)
+
+def get_hosts(host1, host2):
+    first_host = get_host(host1)
+    second_host = get_host(host2)
+    if (first_host == None) or (second_host == None):
+        return None
+    else:
+        return [first_host, second_host]
+
 
 def get_host(host):
     """
