@@ -88,13 +88,13 @@ def home(request):
         loss = request.GET.get('add_loss')
         queue_size = request.GET.get('add_queue_size')
         link = nodes.Link(first, second)
-        if bandwidth != 'default':
+        if bandwidth != 'default' and bandwidth.isdigit():
             link.set_bandwidth(bandwidth)
-        if delay != 'default' and ((delay[-2:]) == 'ms'):
+        if delay != 'default' and ((delay[-2:]) == 'ms') and (delay[:-2].isdigit()):
             link.set_delay(delay)
-        if loss != 'default':
+        if loss != 'default' and loss.isdigit():
             link.set_loss(loss)
-        if queue_size != 'default':
+        if queue_size != 'default' and queue_size.isdigit():
             link.set_queue_size(queue_size)
 
         graph_nodes['links'].append(link)
@@ -262,6 +262,13 @@ def add_ping_info(host_bundle, output):
     second_host.set_link_log('ping', output)
 
 def get_hosts(host1, host2):
+    """
+    Returns an array of host objects based on the name provided. If one of them does 
+    not exist within the network, return None
+    :param host1: The first host name
+    :param host2: The second host name
+    :return: An array containing the two respective Host objects or None
+    """
     first_host = get_host(host1)
     second_host = get_host(host2)
     if (first_host == None) or (second_host == None):
