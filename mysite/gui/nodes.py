@@ -1,8 +1,10 @@
 """
 This file contains classes for nodes in the network
-__author__ Cade Tipton
-__author__ Gatlin Cruz
-__version__ 4/27/21
+__author__: Gatlin Cruz
+__author__: Cade Tipton
+__author__: Noah Lowry
+__author__: Miles Stanley
+__version__: 12/2/21
 """
 
 

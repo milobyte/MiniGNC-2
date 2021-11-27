@@ -244,8 +244,10 @@ def run_mininet(extra):
     # errors = errors.replace("[sudo] password for Gatlin: ", "")
     errors = errors.replace("[sudo] password for mininet: ", "")
 
+    # print("\nAdding '" + errors + "' to output!\n")
     extra['ping'] = errors
 
+    # Returning text to add to respective hosts' link logs
     return errors
 
 
