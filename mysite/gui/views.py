@@ -156,23 +156,32 @@ def home(request):
                         if item.get('_id') == second_index:
                             second = item.get('name')
                     link = nodes.Link(first, second)
-                    graph_nodes['links'].append(link)
                     
                     if row['_bw'] != "":
-                        bandwidth = row.get('_bw')
-                        link.set_bandwidth(bandwidth)
+                        bw_value = row.get('_bw')
+                        if bw_value.isdigit():
+                            print("Added new bandwidth " + bw_value)
+                            link.set_bandwidth(bw_value)
                     
-                    if row['_delay'] != "" and ((delay[-2:]) == 'ms'):
-                        delay = row.get('_delay')
-                        link.set_delay(delay)
+                    if row['_delay'] != "":
+                        delay_value = row.get('_delay')
+                        if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
+                            print("Added new delay " + delay_value)
+                            link.set_delay(delay_value)
 
                     if row['_loss'] != "":
-                        loss = row.get('_loss')
-                        link.set_loss(loss)
+                        loss_value = row.get('_loss')
+                        if loss_value.isdigit():
+                            print("Added new loss " + loss_value)
+                            link.set_loss(loss_value)
 
                     if row['_queue'] != "":
-                        queue = row.get('_queue')
-                        link.set_queue_size(queue)
+                        queue_value = row.get('_queue')
+                        if queue_value.isdigit():
+                            print("Added new queue value " + queue_value)
+                            link.set_queue_size(queue_value)
+
+                    graph_nodes['links'].append(link)
 
     #  This is the logic for when the remove_data button is clicked
     elif request.GET.get('remove_databtn'):
