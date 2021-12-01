@@ -219,6 +219,20 @@ class Link:
         print("BANDWIDTH: " + bandwidth + " ADDED")
         self.bandwidth = bandwidth
 
+    def get_first(self):
+        """
+        Returns the name of the first host
+        :return: the name of the first host
+        """
+        return self.first
+
+    def get_second(self):
+        """
+        Returns the name of the second host
+        :return: the name of the second host
+        """
+        return self.second
+
     def get_bandwidth(self):
         """
         Returns the Mbps of bandwidth set for a link if initialized

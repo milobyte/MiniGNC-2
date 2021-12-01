@@ -216,10 +216,13 @@ def home(request):
 
         host_bundle = get_hosts(host1, host2)
         if host_bundle != None: #If both hosts exist
-            buttons.make_file(graph_nodes)
-            buttons.add_iperf(host1, host2)
-            output = buttons.run_mininet(extra_text)
-            add_iperf_info(host_bundle, output)
+            if (check_link_status(host1, host2)): #If the link between two hosts has no loss
+                buttons.make_file(graph_nodes)
+                buttons.add_iperf(host1, host2)
+                output = buttons.run_mininet(extra_text)
+                add_iperf_info(host_bundle, output)
+            else:
+                extra_text['ping'] = "Error: IPerf not available for links with defined loss!"
         else:
             extra_text['ping'] = "Error: At least one of the hosts provided does not exist!"
 
@@ -287,6 +290,20 @@ def get_hosts(host1, host2):
         return None
     else:
         return [first_host, second_host]
+
+def check_link_status(host1, host2):
+    """
+    Method used to ensure the link between two hosts does not have defined loss. Testing bandwidth with
+    defined loss leads to error due to packet loss.
+    :param host1: The first host name
+    :param host2: The second host name
+    :return: True if the link has no defined loss, False otherwise
+    """
+    for link in graph_nodes['links']:
+        if link.get_first() == host1 and link.get_second() == host2:
+            if link.get_loss() == None:
+                return True
+    return False
 
 
 def get_host(host):
