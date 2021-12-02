@@ -157,29 +157,47 @@ def home(request):
                             second = item.get('name')
                     link = nodes.Link(first, second)
                     
-                    if row['_bw'] != "":
-                        bw_value = row.get('_bw')
-                        if bw_value.isdigit():
-                            print("Added new bandwidth " + bw_value)
-                            link.set_bandwidth(bw_value)
+                    # Following Logic Adds the Network Parameters to each link
+                    # KeyErrors are ignored, if a column header does not exist, then the parameter is not added
+                    try:
+                        if row['_bw'] != "":
+                            bw_value = row.get('_bw')
+                            if bw_value.isdigit():
+                                print("Added new bandwidth " + bw_value)
+                                link.set_bandwidth(bw_value)
                     
-                    if row['_delay'] != "":
-                        delay_value = row.get('_delay')
-                        if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
-                            print("Added new delay " + delay_value)
-                            link.set_delay(delay_value)
+                    except KeyError:
+                        pass
 
-                    if row['_loss'] != "":
-                        loss_value = row.get('_loss')
-                        if loss_value.isdigit():
-                            print("Added new loss " + loss_value)
-                            link.set_loss(loss_value)
+                    try:
+                        if row['_delay'] != "":
+                            delay_value = row.get('_delay')
+                            if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
+                                print("Added new delay " + delay_value)
+                                link.set_delay(delay_value)
+                    
+                    except KeyError:
+                        pass
 
-                    if row['_queue'] != "":
-                        queue_value = row.get('_queue')
-                        if queue_value.isdigit():
-                            print("Added new queue value " + queue_value)
-                            link.set_queue_size(queue_value)
+                    try:
+                        if row['_loss'] != "":
+                            loss_value = row.get('_loss')
+                            if loss_value.isdigit():
+                                print("Added new loss " + loss_value)
+                                link.set_loss(loss_value)
+                    
+                    except KeyError:
+                        pass
+
+                    try:
+                        if row['_queue'] != "":
+                            queue_value = row.get('_queue')
+                            if queue_value.isdigit():
+                                print("Added new queue value " + queue_value)
+                                link.set_queue_size(queue_value)
+                    
+                    except KeyError:
+                        pass
 
                     graph_nodes['links'].append(link)
 
@@ -220,7 +238,12 @@ def home(request):
                 buttons.make_file(graph_nodes)
                 buttons.add_iperf(host1, host2)
                 output = buttons.run_mininet(extra_text)
+                if "Could not connect to iperf" in output:
+                    output = "Iperf Failed"
+                    extra_text['ping'] = output + "\nMake sure there is a path between hosts.\nIf Path has Packet Loss, try again until packet makes it through or remove packet loss."
+
                 add_iperf_info(host_bundle, output)
+                
             else:
                 extra_text['ping'] = "Error: IPerf not available for links with defined loss!"
         else:
@@ -299,6 +322,8 @@ def check_link_status(host1, host2):
     :param host2: The second host name
     :return: True if the link has no defined loss, False otherwise
     """
+    return True #testing-------------------------------------------------------------------------------------DELETE
+
     for link in graph_nodes['links']:
         if link.get_first() == host1 and link.get_second() == host2:
             if link.get_loss() == None:
