@@ -9,6 +9,11 @@ __version__: 12/2/21
 
 
 class Host:
+    """
+    This class represents a Host object within the network.
+    author: Originally written by Cade Tipton and Gatlin Criz
+    author: Additional modifications by Miles Stanley (50%)
+    """
     def __init__(self, name, ip):
         """
         Creates a new Host object
@@ -81,6 +86,11 @@ class Host:
 
 
 class Switch:
+    """
+    This class represents a Switch object within the network.
+    author: Originally written by Cade Tipton and Gatlin Criz
+    author: Additional modifications by Miles Stanley (20%)
+    """
     def __init__(self, name):
         """
         Creates a new Switch object
@@ -119,6 +129,10 @@ class Switch:
 
 
 class Controller:
+    """
+    This class represents a Controller object within the network.
+    author: Originally written by Cade Tipton and Gatlin Criz
+    """
     def __init__(self, name):
         """
         Creates a Controller object
@@ -157,6 +171,11 @@ class Controller:
 
 
 class Link:
+    """
+    This class represents a Host object within the network.
+    author: Originally written by Cade Tipton and Gatlin Criz
+    author: Additional modifications by Noah Lowry and Miles Stanley (80%)
+    """
     def __init__(self, first, second):
         """
         Creates a Link object

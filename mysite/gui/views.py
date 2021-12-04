@@ -53,6 +53,8 @@ def home(request):
     This is the main method for our GUI. It checks if any of the buttons have been pressed
     and does the appropriate method call. It also sets the parameters for the graph when the 
     user hits the set button
+    author: Originally written by Cade Tipton and Gatlin Cruz
+    author: 90% Modified by Noah Lowry and Miles Stanley
     return: The GUI html to display to the user
     """
     # This is the logic for when the set button is clicked
@@ -268,6 +270,7 @@ def home(request):
 def add_iperf_info(host_bundle, output):
     """
     Sets the iPerf log for each host to the most recent iPerf output
+    author: Noah Lowry and Miles Stanley
     :param host1: The first host involved in the bandwidth test
     :param host2: The second host involved in the bandwidth test
     :param output: The output of the bandwidth test to be set within each host's link log
@@ -285,6 +288,7 @@ def add_iperf_info(host_bundle, output):
 def add_ping_info(host_bundle, output):
     """
     Sets the Ping log for each host to the most recent Ping output
+    author: Noah Lowry and Miles Stanley
     :param host1: The first host involved in the ping test
     :param host2: The second host involved in the ping test
     :param output: The output of the ping test to be set within each host's link log
@@ -303,6 +307,7 @@ def get_hosts(host1, host2):
     """
     Returns an array of host objects based on the name provided. If one of them does 
     not exist within the network, return None
+    author: Noah Lowry and Miles Stanley
     :param host1: The first host name
     :param host2: The second host name
     :return: An array containing the two respective Host objects or None
@@ -318,6 +323,7 @@ def check_link_status(host1, host2):
     """
     Method used to ensure the link between two hosts does not have defined loss. Testing bandwidth with
     defined loss leads to error due to packet loss.
+    author: Miles Stanley
     :param host1: The first host name
     :param host2: The second host name
     :return: True if the link has no defined loss, False otherwise
@@ -334,6 +340,7 @@ def check_link_status(host1, host2):
 def get_host(host):
     """
     Gets a host object based on the host name provided
+    author: Miles Stanley
     :param host: the host name of the host to return
     :return: the host object with the same name as the parameter provided
     """
