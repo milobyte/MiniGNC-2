@@ -55,13 +55,13 @@ def make_graph(graph):
     # Adds a node for each number of host, switch and controller
     for switch in graph.get('switches'):
         nx_graph.add_node(switch.name, type='Switch', color='green', name=switch.name, ip="")
-        print("Added switch " + switch.name)
+        # print("Added switch " + switch.name)
     for controller in graph.get('controllers'):
         nx_graph.add_node(controller.name, type='Controller', color='blue', name=controller.name, ip="")
-        print("Added controller " + controller.name)
+        # print("Added controller " + controller.name)
     for host in graph.get('hosts'):
         nx_graph.add_node(host.name, type='Host', color='red', name=host.name, ip=host.ip, links_info=host.link_log)
-        print("Added host " + host.name)
+        # print("Added host " + host.name)
 
     node_x = []
     node_y = []

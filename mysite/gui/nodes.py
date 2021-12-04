@@ -72,10 +72,10 @@ class Host:
 
     def set_link_log(self, type, output):
         if type == 'iperf':
-            print("New iperf for " + self.name + " recorded")
+            # print("New iperf for " + self.name + " recorded")
             self.link_log[self.IPERF_LOG] = output
         elif type == 'ping':
-            print("New ping for " + self.name + " recorded")
+            # print("New ping for " + self.name + " recorded")
             self.link_log[self.PING_LOG] = output
 
     def get_iperf_log(self):

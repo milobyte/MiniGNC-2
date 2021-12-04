@@ -165,7 +165,7 @@ def home(request):
                         if row['_bw'] != "":
                             bw_value = row.get('_bw')
                             if bw_value.isdigit():
-                                print("Added new bandwidth " + bw_value)
+                                # print("Added new bandwidth " + bw_value)
                                 link.set_bandwidth(bw_value)
                     
                     except KeyError:
@@ -175,7 +175,7 @@ def home(request):
                         if row['_delay'] != "":
                             delay_value = row.get('_delay')
                             if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
-                                print("Added new delay " + delay_value)
+                                # print("Added new delay " + delay_value)
                                 link.set_delay(delay_value)
                     
                     except KeyError:
@@ -185,7 +185,7 @@ def home(request):
                         if row['_loss'] != "":
                             loss_value = row.get('_loss')
                             if loss_value.isdigit():
-                                print("Added new loss " + loss_value)
+                                # print("Added new loss " + loss_value)
                                 link.set_loss(loss_value)
                     
                     except KeyError:
@@ -195,7 +195,7 @@ def home(request):
                         if row['_queue'] != "":
                             queue_value = row.get('_queue')
                             if queue_value.isdigit():
-                                print("Added new queue value " + queue_value)
+                                # print("Added new queue value " + queue_value)
                                 link.set_queue_size(queue_value)
                     
                     except KeyError:
