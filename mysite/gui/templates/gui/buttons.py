@@ -39,6 +39,8 @@ def make_graph(graph):
      switches: The number of switches in the graph
      controllers: The number of controllers in the graph
      links: The links in the graph
+
+    Author: Orignally Written by Gatlin and Cade. Modified by Noah and Miles (roughly 60% was modified)
     """
     # The graph object used to build the network throughout the function
     nx_graph = nx.Graph()
@@ -121,7 +123,6 @@ def make_graph(graph):
     # Determines the text to display for identifying nodes on the graph
     node_text = []
     node_color = []
-    # node_size = []
     for node in nx_graph.nodes():
         if nx_graph.nodes[node]['ip'] != "":
             node_text.append(nx_graph.nodes[node]['name'] + " | " + nx_graph.nodes[node]['ip'] + "<br>" + 
@@ -167,6 +168,8 @@ def make_file(graph):
     """
     Creates a Python file that represents a network using Mininet
     :param graph: The graph list with the values for the network
+
+    Author: Written by Cade and Gatlin. Modified by Miles and Noah (10%)
     """
 
     path = str(Path.home()) + "/Desktop/"
@@ -183,8 +186,6 @@ def make_file(graph):
 
     # Sets IP within Mininet for each host
     for host in graph.get('hosts'):
-        # for link in graph.get('links'):
-        #     if host.name == link.first or host.name == link.second:
         new_file.write(host.add_ip_to_file())
 
 
@@ -199,6 +200,7 @@ def get_mininet_file():
 def add_ping(host1, host2):
     """
     Method to test the latency between two hosts.
+    Author: Miles and Noah
     """
     new_file = get_mininet_file()
     new_file.write("\nnet.start()\nnet.ping([" + host1 + ", " + host2 + "])\nnet.stop()\n")
@@ -207,6 +209,7 @@ def add_ping(host1, host2):
 def add_ping_all():
     """
     Method to test the latency for all nodes.
+    Author: Miles and Noah
     """
     new_file = get_mininet_file()
     new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
@@ -228,8 +231,6 @@ def run_mininet(extra):
     """
 
     path = str(Path.home()) + "/Desktop/"
-
-
 
     sudo_pw = "Mininet"
     command = "python2 " + path + "new_file.py"
@@ -294,6 +295,7 @@ def save_database():
 def remove_host(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    Author: Miles and Noah
     """
     for host in graph['hosts']:
         if host.get_name() == node.get('name'):
@@ -305,6 +307,7 @@ def remove_host(node, graph):
 def remove_switch(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    Author: Noah and Miles
     """
     for switch in graph['switches']:
         if switch.get_name() == node.get('name'):
@@ -316,6 +319,7 @@ def remove_switch(node, graph):
 def remove_controller(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    Author: Miles and Noah
     """
     for controller in graph['controllers']:
         if controller.get_name() == node.get('name'):
@@ -327,6 +331,7 @@ def remove_controller(node, graph):
 def remove_links(first_name, second_name, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    Author: Miles and Noah
     """
     for link in graph['links']:
         if ((link.first == first_name) or (link.first == second_name)) and ((link.second == first_name) or (link.second == second_name)):
@@ -337,47 +342,14 @@ def remove_links(first_name, second_name, graph):
 def remove_assoc_links(node, graph):
     """
     This method removes any links associated with a node
+    Author: Miles and Noah
     """
-    # if(node.get('name') == "hr1"):
-    #     print("Printing links remaining")
-    #     print(graph['links'])
     for link in copy.deepcopy(graph['links']):
         print("Comparing " + node.get('name') + " to " + link.first + " and " + link.second)
         if ((link.first == node.get('name')) or (link.second == node.get('name'))):
-            # error here
-            # graph['links'].remove(link)
-
-            # Is there a more efficient solution?
             remove_links(link.first, link.second, graph)
 
-            # print("Link between " + link.first + " and " + link.second + " removed")
     return
-
-def main():
-    """
-    The main method that creates a path
-    """
-    # custom_path = "/home/mininet/mininet/custom/"
-
-    # base_file = open(custom_path + "base_file.py", "a")
-    #
-    # host_text = ""
-    # switch_text = ""
-    # for host in range(4):  # graph.get('num_hosts')
-    #     host_text += "\th" + str(host + 1) + " = self.addHost( 'h" + str(host + 1) + "' )\n"
-    # for switch in range(2):  # graph.get('num_switches')
-    #     switch_text += "\ts" + str(switch + 1) + " = self.addSwitch( 's" + str(switch + 1) + "' )\n"
-    #
-    # print(host_text)
-    # print(switch_text)
-    #
-    # base_file.write("\t#Add hosts\n" + host_text + "\n")
-    # base_file.write("\t#Add switches\n" + switch_text)
-    # other_path = "/home/mininet/Desktop/"
-    # make_file()
-
-    # run_mininet(other_path)
-
 
 if __name__ == '__main__':
     main()
