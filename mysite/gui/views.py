@@ -307,6 +307,13 @@ def get_host(host):
             return new_host
 
 def set_link_params(link, row):
+    """
+    This function searches a row from a CSV file in order to apply any link parameters to a given link
+    :param link: The link object to apply any parameters to if necessary
+    :param row: The row from our CSV file to determine link parameters based on column
+
+    author: Noah Lowry
+    """
     # Following Logic Adds the Network Parameters to each link
     # KeyErrors are ignored, if a column header does not exist, then the parameter is not added
     try:
