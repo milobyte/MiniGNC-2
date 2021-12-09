@@ -33,12 +33,8 @@ filename = ''
 
 def make_graph(graph):
     """
-    This setups up the graph based on the parameters from the user and makes an HTML file of the graph
-    args:
-     hosts: The number of hosts in the graph
-     switches: The number of switches in the graph
-     controllers: The number of controllers in the graph
-     links: The links in the graph
+    This sets up the graph based on the parameters from the user and makes an HTML file of the graph
+    :param graph: The object that stores the different nodes and links within the network
 
     Author: Orignally Written by Gatlin and Cade. Modified by Noah and Miles (roughly 60% was modified)
     """
@@ -50,8 +46,38 @@ def make_graph(graph):
     for link in graph.get('links'):
         link_list.append(link.to_tuple())
 
+    # Sets edges for nx_graph
     nx_graph.add_edges_from(link_list)
 
+    # Setting the nodes and positions for nx_graph
+    set_nx_graph_nodes(graph, nx_graph)
+
+    # Setting node_trace and edge_trace for Plotly graphing
+    node_trace = get_node_trace(nx_graph)
+    edge_trace = get_edge_trace(nx_graph)
+
+    # Setting the text to display on node hover
+    set_node_text(nx_graph, node_trace)
+
+    fig = go.Figure(data=[edge_trace, node_trace],
+                    layout=go.Layout(
+                        showlegend=False, hovermode='closest',
+                        margin=dict(b=20, l=5, r=5, t=40),
+                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                    )
+
+    fig.write_html(PATH + 'figure.html')
+
+def set_nx_graph_nodes(graph, nx_graph):
+    """
+    This function sets up the different nodes for the nx_graph object used to graph the network.
+
+    :param graph: The object that stores the different nodes and links within the network
+    :param nx_graph: The object used to represent the network
+
+    Author: Orignally Written by Gatlin and Cade. Modified by Noah and Miles (roughly 70% was modified for position plotting)
+    """
     # Adds a node for each number of host, switch and controller
     for switch in graph.get('switches'):
         nx_graph.add_node(switch.name, type='Switch', color='green', name=switch.name, ip="")
@@ -63,14 +89,24 @@ def make_graph(graph):
         nx_graph.add_node(host.name, type='Host', color='red', name=host.name, ip=host.ip, links_info=host.link_log)
         # print("Added host " + host.name)
 
-    node_x = []
-    node_y = []
-
     # Using NetworkX's Kamada Kawai layout to generate positions for graph nodes. 
     # For more information on how this works, look into Force directed graphs.
     position_dict = nx.kamada_kawai_layout(nx_graph, weight = None)
     for node, position in position_dict.items():
         nx_graph.nodes[node]['pos'] = position
+
+
+def get_node_trace(nx_graph):
+    """
+    This function sets up the object that will determine how nodes are graphed.
+    :param nx_graph: The object used to represent the network
+
+    :return node_trace: the object that allows Plotly to graph the nodes of the network
+
+    Author: Orignally Written by Gatlin and Cade. Modified by Noah and Miles (roughly 40% was modified for position plotting)
+    """
+    node_x = []
+    node_y = []
 
     # Assigns positions to node_x and node_y lists
     for node in nx_graph.nodes():
@@ -100,6 +136,17 @@ def make_graph(graph):
         ),
     )
 
+    return node_trace
+
+def get_edge_trace(nx_graph):
+    """
+    This function sets up the object used to graph the edges of the network.
+    :param nx_graph: The object used to represent the network
+
+    :return edge_trace: the object that allows Plotly to graph the edges of the network
+
+    Author: Orignally Written by Gatlin and Cade. Modified by Noah and Miles (roughly 5% was modified for position plotting)
+    """
     # Declaring and defining edges within the network
     edge_x = []
     edge_y = []
@@ -120,6 +167,16 @@ def make_graph(graph):
         hoverinfo='none',
         mode='lines')
 
+    return edge_trace
+
+def set_node_text(nx_graph, node_trace):
+    """
+    This function sets up text that will be displayed upon hovering over a node within the graph.
+    :param nx_graph: The object used to represent the network
+    :param node_trace: the object that allows Plotly to graph the nodes of the network
+
+    Author: Orignally Written by Gatlin and Cade. Modified by Noah and Miles (roughly 20% was modified for position plotting)
+    """
     # Determines the text to display for identifying nodes on the graph
     node_text = []
     node_color = []
@@ -133,22 +190,11 @@ def make_graph(graph):
     node_trace.marker.color = node_color
     node_trace.text = node_text
 
-    fig = go.Figure(data=[edge_trace, node_trace],
-                    layout=go.Layout(
-                        showlegend=False, hovermode='closest',
-                        margin=dict(b=20, l=5, r=5, t=40),
-                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                    )
-
-    fig.write_html(PATH + 'figure.html')
-
 
 def reset_graph(graph):
     """
     Resets the values of the graph to empty lists
-    args:
-      graph: The graph list being used
+    :param graph: The graph list being used
     """
     for key in graph.keys():
         graph[key].clear()
@@ -157,8 +203,7 @@ def reset_graph(graph):
 def clear_output(extra):
     """
     Resets the values of the output to empty lists
-    args:
-      extra: The extra list being used
+    :param extra: The extra list being used
     """
     for key in extra.keys():
         extra[key] = ""
