@@ -1,0 +1,10 @@
+"_id","_labels","ip","name","type","_start","_end","_type"
+"21",":department_network","127.0.2.6","jimmy","host",,,
+"22",":department_network","127.0.1.6","neutron","host",,,
+"23",":department_network","127.0.2.7","carl","host",,,
+"24",":department_network","127.0.3.6","wheezer","host",,,
+,,,,,"cb","finance2","PORT"
+,,,,,"dustin","finance2","PORT"
+,,,,,"mark","finance2","PORT"
+,,,,,"rick","wt3","PORT"
+,,,,,"jessica","wt3","PORT"
