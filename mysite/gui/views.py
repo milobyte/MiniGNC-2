@@ -54,7 +54,7 @@ def home(request):
     and does the appropriate method call. It also sets the parameters for the graph when the 
     user hits the set button
     author: Originally written by Cade Tipton and Gatlin Cruz
-    author: 90% Modified by Noah Lowry and Miles Stanley
+    author: 80% Modified by Noah Lowry and Miles Stanley
     return: The GUI html to display to the user
     """
     # This is the logic for when the set button is clicked
@@ -158,49 +158,7 @@ def home(request):
                         if item.get('_id') == second_index:
                             second = item.get('name')
                     link = nodes.Link(first, second)
-                    
-                    # Following Logic Adds the Network Parameters to each link
-                    # KeyErrors are ignored, if a column header does not exist, then the parameter is not added
-                    try:
-                        if row['_bw'] != "":
-                            bw_value = row.get('_bw')
-                            if bw_value.isdigit():
-                                # print("Added new bandwidth " + bw_value)
-                                link.set_bandwidth(bw_value)
-                    
-                    except KeyError:
-                        pass
-
-                    try:
-                        if row['_delay'] != "":
-                            delay_value = row.get('_delay')
-                            if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
-                                # print("Added new delay " + delay_value)
-                                link.set_delay(delay_value)
-                    
-                    except KeyError:
-                        pass
-
-                    try:
-                        if row['_loss'] != "":
-                            loss_value = row.get('_loss')
-                            if loss_value.isdigit():
-                                # print("Added new loss " + loss_value)
-                                link.set_loss(loss_value)
-                    
-                    except KeyError:
-                        pass
-
-                    try:
-                        if row['_queue'] != "":
-                            queue_value = row.get('_queue')
-                            if queue_value.isdigit():
-                                # print("Added new queue value " + queue_value)
-                                link.set_queue_size(queue_value)
-                    
-                    except KeyError:
-                        pass
-
+                    set_link_params(link, row)
                     graph_nodes['links'].append(link)
 
     #  This is the logic for when the remove_data button is clicked
@@ -347,6 +305,50 @@ def get_host(host):
     for new_host in graph_nodes['hosts']:
         if new_host.name == host:
             return new_host
+
+def set_link_params(link, row):
+    # Following Logic Adds the Network Parameters to each link
+    # KeyErrors are ignored, if a column header does not exist, then the parameter is not added
+    try:
+        if row['_bw'] != "":
+            bw_value = row.get('_bw')
+            if bw_value.isdigit():
+                # print("Added new bandwidth " + bw_value)
+                link.set_bandwidth(bw_value)
+    
+    except KeyError:
+        pass
+
+    try:
+        if row['_delay'] != "":
+            delay_value = row.get('_delay')
+            if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
+                # print("Added new delay " + delay_value)
+                link.set_delay(delay_value)
+    
+    except KeyError:
+        pass
+
+    try:
+        if row['_loss'] != "":
+            loss_value = row.get('_loss')
+            if loss_value.isdigit():
+                # print("Added new loss " + loss_value)
+                link.set_loss(loss_value)
+    
+    except KeyError:
+        pass
+
+    try:
+        if row['_queue'] != "":
+            queue_value = row.get('_queue')
+            if queue_value.isdigit():
+                # print("Added new queue value " + queue_value)
+                link.set_queue_size(queue_value)
+    
+    except KeyError:
+        pass
+
 
 def graph(request):
     """
