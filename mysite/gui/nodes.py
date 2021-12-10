@@ -71,6 +71,12 @@ class Host:
         return self.name
 
     def set_link_log(self, type, output):
+        """
+        Sets either the latest iPerf or Ping test information
+        :param type: the type of test (iPerf or Ping) whose information should be updated
+        :param output: the information that represents the result of the latest test
+        :return: None
+        """
         if type == 'iperf':
             # print("New iperf for " + self.name + " recorded")
             self.link_log[self.IPERF_LOG] = output
@@ -79,9 +85,17 @@ class Host:
             self.link_log[self.PING_LOG] = output
 
     def get_iperf_log(self):
+        """
+        Returns the latest Ping information
+        :return: the latest Ping information
+        """
         return self.link_log[self.IPERF_LOG]
 
     def get_ping_log(self):
+        """
+        Returns the latest iPerf information
+        :return: the latest iPerf information
+        """
         return self.link_log[self.PING_LOG]
 
 
@@ -209,15 +223,14 @@ class Link:
         Automates the text to add a link to a file
         :return: the text to add a link to a file
         """
-        linkOptsString = "link_opts = dict(bw = " + str(self.bandwidth) + ", delay = '" + str(self.delay) + "', loss = " + str(self.loss) + ", max_queue_size = " + str(self.max_queue_size) + ")\n"
-        # Use String building? 
-        # if self.bandwidth == None: 
-        #     return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
-        # elif self.delay == None:
-        #     return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "', bw = " + self.bandwidth + ")\n"
-        # else: 
-        #     return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "', bw = " + self.bandwidth + ", delay = '" + self.delay + "' )\n"
-        linkInitializer = linkOptsString + self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "', **link_opts )\n"
+
+        # Defining the linkOpts object for defining link parameters
+        linkOptsString = ("link_opts = dict(bw = " + str(self.bandwidth) + ", delay = '" + str(self.delay) + 
+            "', loss = " + str(self.loss) + ", max_queue_size = " + str(self.max_queue_size) + ")\n")
+        
+        # Defining the addLink function with linkOpts
+        linkInitializer = (linkOptsString + self.first + self.second + " = net.addLink( '" + 
+            self.first + "', " + "'" + self.second + "', **link_opts )\n")
         return linkInitializer
 
 
