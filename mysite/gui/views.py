@@ -200,7 +200,8 @@ def home(request):
                 output = buttons.run_mininet(extra_text)
                 if "Could not connect to iperf" in output:
                     output = "Iperf Failed"
-                    extra_text['ping'] = output + "\nMake sure there is a path between hosts.\nIf Path has Packet Loss, try again until packet makes it through or remove packet loss."
+                    extra_text['ping'] = (output + "\nMake sure there is a path between hosts.\n" +
+                        "If Path has Packet Loss, try again until packet makes it through or remove packet loss.")
 
                 add_iperf_info(host_bundle, output)
                 
