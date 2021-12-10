@@ -1,0 +1,7 @@
+"_id","_labels","ip","name","type"
+"0",":department_network","127.0.0.1","bob","host"
+"1",":department_network","127.0.0.2","frank","host"
+"2",":department_network","127.0.0.3","margret","host"
+"46",":department_network",,"hr1","switch"
+"47",":department_network",,"finance2","switch"
+"52",":department_network",,"c1","controller"

@@ -2,3 +2,5 @@ django
 neo4j
 networkx
 plotly
+numpy
+scipy
