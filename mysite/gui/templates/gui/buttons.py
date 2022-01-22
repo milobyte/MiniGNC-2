@@ -337,6 +337,18 @@ def save_database():
     temp = app.test1()
     print(temp.values())
 
+def clear_database():
+    bolt_url = "neo4j://localhost:7687"
+    # The default username for Neo4j
+    user = "neo4j"
+    # The password we use to gain access to the database
+    password = "mininet"
+    # Creating an app object from the db_testing file
+    app = db_testing.App(bolt_url, user, password)
+    result = app.clear_data()
+    app.close()
+    return result
+
 def remove_host(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list

@@ -127,6 +127,15 @@ def home(request):
         filename = request.GET.get('save_file_name')
         buttons.add_to_database(graph_nodes, filename)
 
+    # This is the logic for when the clear database button is clicked
+    elif request.GET.get('clr_database'):
+        result = buttons.clear_database()
+        if result:
+            extra_text['ping'] = "Database has been cleared."
+        else:
+            extra_text['ping'] = "Error occurred when attempting to clear database."
+
+
     # This is the logic for when the load_data button is clicked
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')

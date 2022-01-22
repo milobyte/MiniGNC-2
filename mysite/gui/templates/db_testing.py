@@ -29,6 +29,8 @@ class App:
         Creates a node to the database
         :param tx: The tx object used to run the command
         :param node: The node object that's being added
+        :param node_type: The type of the node (host, switch, or controller)
+        :param graph_name: the name of the graph
         :return: The result from the function call
         """
         if ip is None:
@@ -84,10 +86,19 @@ class App:
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_csv, filename)
 
+    def clear_data(self):
+        """
+        Calls the static method _clear_database to delete all nodes and relationships in the database
+        :return: The result from the function call
+        """
+        with self.driver.session() as session:
+            return session.write_transaction(self._clear_database)
+
+
     @staticmethod
     def _create_and_return_csv(tx, filename):
         """
-        Creates the links between the nodes
+        Exports the database as a CSV file to the Desktop directory
         :param tx: the object that runs the query
         :param filename: the name of the file
         :return: the result of the function call
@@ -95,6 +106,18 @@ class App:
 
         path = str(Path.home()) + "/Desktop/" + str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
+
+    # ADDED FUNCTIONS 1/22/2022
+    @staticmethod
+    def _clear_database(tx):
+        """
+        Clears the database of all nodes and relationships.
+        :param tx: the object that runs the query
+        :return: the result of the function call
+        """
+        query1 = ("MATCH (n)"
+                 "DETACH DELETE n")
+        return tx.run(query1).single()
 
 """ Used to test """
 if __name__ == "__main__":
