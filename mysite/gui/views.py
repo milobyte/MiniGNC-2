@@ -130,10 +130,10 @@ def home(request):
     # This is the logic for when the clear database button is clicked
     elif request.GET.get('clr_database'):
         result = buttons.clear_database()
-        if result:
-            extra_text['ping'] = "Database has been cleared."
-        else:
-            extra_text['ping'] = "Error occurred when attempting to clear database."
+        # if result:
+        extra_text['ping'] = "Database has been cleared."
+        # else:
+        #     extra_text['ping'] = "Error occurred when attempting to clear database."
 
 
     # This is the logic for when the load_data button is clicked

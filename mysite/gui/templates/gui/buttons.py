@@ -308,7 +308,7 @@ def add_to_database(graph, graph_name):
     # The default username for Neo4j
     user = "neo4j"
     # The password we use to gain access to the database
-    password = "Mininet"
+    password = "mininet"
     # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
 

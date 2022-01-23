@@ -13,11 +13,13 @@ class App:
         :param username: The username that is used to gain access to the database
         :param pw: The password that is used to gain access to the database
         """
+        print(username)
+        print(pw)
         self.driver = GraphDatabase.driver(uri, auth=(username, pw))
 
     def close(self):
         """
-        Cooses the driver object connection
+        Closes the driver object connection
         :return: None
         """
         # Don't forget to close the driver connection when you are finished with it
