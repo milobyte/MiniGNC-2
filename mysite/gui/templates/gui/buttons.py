@@ -287,8 +287,8 @@ def run_mininet(extra):
     outs, errors = cmd2.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
 
-    # errors = errors.replace("[sudo] password for Gatlin: ", "")
-    errors = errors.replace("[sudo] password for mininet: ", "")
+    # REPLACE USERNAME WITH CURRENT USERNAME IF NEEDED
+    errors = errors.replace("[sudo] password for milobyte: ", "")
 
     # print("\nAdding '" + errors + "' to output!\n")
     extra['ping'] = errors
@@ -313,11 +313,11 @@ def add_to_database(graph, graph_name):
     app = db_testing.App(bolt_url, user, password)
 
     for host in graph.get('hosts'):
-        app.create_node(host.name, graph_name, 'host', host.ip)
+        app.create_node(host.name, graph_name, host.type, host.ip, host.get_iperf_log(), host.get_ping_log())
     for switch in graph.get('switches'):
-        app.create_node(switch.name, graph_name, 'switch')
+        app.create_node(switch.name, graph_name, switch.type)
     for controller in graph.get('controllers'):
-        app.create_node(controller.name, graph_name, 'controller')
+        app.create_node(controller.name, graph_name, switch.type)
     for link in graph.get('links'):
         print(app.create_links_db(link.first, link.second, graph_name).peek())
 

@@ -13,8 +13,7 @@ class App:
         :param username: The username that is used to gain access to the database
         :param pw: The password that is used to gain access to the database
         """
-        print(username)
-        print(pw)
+  
         self.driver = GraphDatabase.driver(uri, auth=(username, pw))
 
     def close(self):
@@ -26,7 +25,7 @@ class App:
         self.driver.close()
 
     @staticmethod
-    def _create_and_return_node(tx, node, graph_name, node_type, ip=None):
+    def _create_and_return_node(tx, node, graph_name, node_type, ip=None, iperf_log=None, ping_log=None):
         """
         Creates a node to the database
         :param tx: The tx object used to run the command
@@ -39,11 +38,11 @@ class App:
             query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" + str(node_type) + "' }) RETURN p1")
         else:
             query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" +
-                     str(node_type) + "' , ip: '" + str(ip) + "' }) RETURN p1")
+                     str(node_type) + "' , ip: '" + str(ip) + "', iPerf_data: '" + str(iperf_log) + "', ping_data: '" + str(ping_log) + "' }) RETURN p1")
 
         return tx.run(query, node=node, graph_name=graph_name).single()
 
-    def create_node(self, node_name, graph_name, node_type, ip=None):
+    def create_node(self, node_name, graph_name, node_type, ip=None, iperf_log=None, ping_log=None):
         """
         Calls the static method _create_and_return to add a single node
         :param ip: The IP of the node if it is specified, or None otherwise
@@ -53,7 +52,7 @@ class App:
         :return: The result from the function call
         """
         with self.driver.session() as session:
-            return session.write_transaction(self._create_and_return_node, node_name, graph_name, node_type, ip)
+            return session.write_transaction(self._create_and_return_node, node_name, graph_name, node_type, ip, iperf_log, ping_log)
 
     @staticmethod
     def _create_and_return_links_db(tx, node1, node2, graph_name):
@@ -76,6 +75,7 @@ class App:
         :param node2: the ending node in the link
         :return: the result of the function call
         """
+        print(node1 + " " + node2)
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_links_db, node1, node2, graph_name)
 
@@ -87,15 +87,6 @@ class App:
         """
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_csv, filename)
-
-    def clear_data(self):
-        """
-        Calls the static method _clear_database to delete all nodes and relationships in the database
-        :return: The result from the function call
-        """
-        with self.driver.session() as session:
-            return session.write_transaction(self._clear_database)
-
 
     @staticmethod
     def _create_and_return_csv(tx, filename):
@@ -110,6 +101,14 @@ class App:
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
     # ADDED FUNCTIONS 1/22/2022
+    def clear_data(self):
+        """
+        Calls the static method _clear_database to delete all nodes and relationships in the database
+        :return: The result from the function call
+        """
+        with self.driver.session() as session:
+            return session.write_transaction(self._clear_database)
+
     @staticmethod
     def _clear_database(tx):
         """
