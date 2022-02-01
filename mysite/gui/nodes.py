@@ -314,6 +314,13 @@ class Link:
         """
         return self.delay
 
+    def get_loss(self):
+        """
+        Returns the value representing the precentage of loss in packets of a link 
+        :return: representing the precentage of loss in packets of a link  or None if loss was not initialized
+        """
+        return self.loss
+
     def set_loss(self, loss):
         """
         Sets a value representing the precentage of loss in packets of a link 
@@ -323,13 +330,6 @@ class Link:
         # SET RESTRICTIONS
         self.loss = loss
         print("LOSS: " + loss + " ADDED")
-
-    def get_loss(self):
-        """
-        Returns the value representing the precentage of loss in packets of a link 
-        :return: representing the precentage of loss in packets of a link  or None if loss was not initialized
-        """
-        return self.loss
 
     def set_queue_size(self, size):
         """

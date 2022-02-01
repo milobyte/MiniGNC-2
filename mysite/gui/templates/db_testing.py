@@ -34,6 +34,9 @@ class App:
         :param graph_name: the name of the graph
         :return: The result from the function call
         """
+
+        # REDO WITH STRING FORMATTING
+        # LOGGING SYNTAX ERROR
         if ip is None:
             query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" + str(node_type) + "' }) RETURN p1")
         else:
@@ -51,11 +54,13 @@ class App:
         :param node_name: The name of the node
         :return: The result from the function call
         """
+        # iperf_log = "'" + iperf_log + "'"
+        # print(ping_log)
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_node, node_name, graph_name, node_type, ip, iperf_log, ping_log)
 
     @staticmethod
-    def _create_and_return_links_db(tx, node1, node2, graph_name):
+    def _create_and_return_links_db(tx, node1, node2, graph_name, bw, delay, loss, queue_size):
         """
         Creates the links between the nodes
         :param tx: the object that runs the query
@@ -63,11 +68,12 @@ class App:
         :param node2: the ending node in the link
         :return: the result of the function call
         """
+        # KEY ERROR
+        return tx.run("MATCH (a:{}), (b:{}) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT {bandwidth_size: '{}'}," 
+                      " {delay_size: '{}'}, {loss_size: '{}'}, {queue_size: '{}'}]->(b)RETURN "
+                      "type(r), bandwidth_size, delay_size, loss_size, queue_size".format(graph_name, graph_name, node1, node2, bw, delay, loss, queue_size))
 
-        return tx.run("MATCH (a:{}), (b:{}) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN "
-                      "type(r)".format(graph_name, graph_name, node1, node2))
-
-    def create_links_db(self, node1, node2, graph_name):
+    def create_links_db(self, node1, node2, graph_name, bw, delay, loss, queue_size):
         """
         Calls _create_and_return_links_db method
         :param graph_name: the name of the graph
@@ -77,7 +83,7 @@ class App:
         """
         print(node1 + " " + node2)
         with self.driver.session() as session:
-            return session.write_transaction(self._create_and_return_links_db, node1, node2, graph_name)
+            return session.write_transaction(self._create_and_return_links_db, node1, node2, graph_name, bw, delay, loss, queue_size)
 
     def create_csv(self, filename):
         """

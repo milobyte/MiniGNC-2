@@ -319,7 +319,8 @@ def add_to_database(graph, graph_name):
     for controller in graph.get('controllers'):
         app.create_node(controller.name, graph_name, switch.type)
     for link in graph.get('links'):
-        print(app.create_links_db(link.first, link.second, graph_name).peek())
+        print(app.create_links_db(link.get_first(), link.get_second(), graph_name, link.get_bandwidth(), 
+            link.get_delay(), link.get_loss(), link.get_queue_size()).peek())
 
     app.create_csv(graph_name)
 
