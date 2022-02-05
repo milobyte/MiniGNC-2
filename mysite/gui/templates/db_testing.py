@@ -68,10 +68,14 @@ class App:
         :param node2: the ending node in the link
         :return: the result of the function call
         """
-        # KEY ERROR
-        return tx.run("MATCH (a:{}), (b:{}) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT {bandwidth_size: '{}'}," 
-                      " {delay_size: '{}'}, {loss_size: '{}'}, {queue_size: '{}'}]->(b)RETURN "
-                      "type(r), bandwidth_size, delay_size, loss_size, queue_size".format(graph_name, graph_name, node1, node2, bw, delay, loss, queue_size))
+        query = ("MATCH (a:{}), (b:{})"
+                "WHERE a.name = '{}' AND b.name = '{}'"
+                "CREATE (a)-[r:PORT {{bandwidth: '{}', delay: '{}', loss: '{}', queue_size: '{}'}}]->(b) "
+                "return type(r)".format(graph_name, graph_name, node1, node2, bw or "unlimited", delay or "none", loss or "none", queue_size or "none"))
+        return tx.run(query)
+        # return tx.run("MATCH (a:{}), (b:{}) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT {bandwidth_size: '{}'}," 
+        #              " {delay_size: '{}'}, {loss_size: '{}'}, {queue_size: '{}'}]->(b)RETURN "
+        #              "type(r), bandwidth_size, delay_size, loss_size, queue_size".format(graph_name, graph_name, node1, node2, bw, delay, loss, queue_size))
 
     def create_links_db(self, node1, node2, graph_name, bw, delay, loss, queue_size):
         """
