@@ -97,14 +97,14 @@ class Host:
         Returns the latest Ping information
         :return: the latest Ping information
         """
-        return self.link_log[self.IPERF_LOG]
+        return self.link_log[self.IPERF_LOG].replace("'", "")
 
     def get_ping_log(self):
         """
         Returns the latest iPerf information
         :return: the latest iPerf information
         """
-        return self.link_log[self.PING_LOG]
+        return self.link_log[self.PING_LOG].replace("'", "")
 
 
 class Switch:
