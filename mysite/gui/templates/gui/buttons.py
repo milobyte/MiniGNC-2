@@ -327,18 +327,18 @@ def add_to_database(graph, graph_name):
     app.close()
 
 
-def save_database():
-    bolt_url = "neo4j://localhost:7687"
-    # The default username for Neo4j
-    user = "neo4j"
-    # The password we use to gain access to the database
-    password = "mininet"
-    # Creating an app object from the db_testing file
-    app = db_testing.App(bolt_url, user, password)
-    temp = app.test1()
-    print(temp.values())
+# def save_database():
+#     bolt_url = "neo4j://localhost:7687"
+#     # The default username for Neo4j
+#     user = "neo4j"
+#     # The password we use to gain access to the database
+#     password = "mininet"
+#     # Creating an app object from the db_testing file
+#     app = db_testing.App(bolt_url, user, password)
+#     temp = app.test1()
+#     print(temp.values())
 
-def clear_database():
+def clear_database(db = "neo4j"):
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
     user = "neo4j"
@@ -346,7 +346,7 @@ def clear_database():
     password = "mininet"
     # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
-    result = app.clear_data()
+    result = app.clear_data(db)
     app.close()
     return result
 
