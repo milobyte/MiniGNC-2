@@ -287,8 +287,8 @@ def run_mininet(extra):
     outs, errors = cmd2.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
 
-    # errors = errors.replace("[sudo] password for Gatlin: ", "")
-    errors = errors.replace("[sudo] password for mininet: ", "")
+    # REPLACE USERNAME WITH CURRENT USERNAME IF NEEDED
+    errors = errors.replace("[sudo] password for milobyte: ", "")
 
     # print("\nAdding '" + errors + "' to output!\n")
     extra['ping'] = errors
@@ -308,36 +308,37 @@ def add_to_database(graph, graph_name):
     # The default username for Neo4j
     user = "neo4j"
     # The password we use to gain access to the database
-    password = "Mininet"
+    password = "mininet"
     # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
 
     for host in graph.get('hosts'):
-        app.create_node(host.name, graph_name, 'host', host.ip)
+        app.create_node(host.name, graph_name, host.type, host.ip, host.get_iperf_log(), host.get_ping_log())
     for switch in graph.get('switches'):
-        app.create_node(switch.name, graph_name, 'switch')
+        app.create_node(switch.name, graph_name, switch.type)
     for controller in graph.get('controllers'):
-        app.create_node(controller.name, graph_name, 'controller')
+        app.create_node(controller.name, graph_name, switch.type)
     for link in graph.get('links'):
-        print(app.create_links_db(link.first, link.second, graph_name).peek())
+        print(app.create_links_db(link.get_first(), link.get_second(), graph_name, link.get_bandwidth(), 
+            link.get_delay(), link.get_loss(), link.get_queue_size()).peek())
 
     app.create_csv(graph_name)
 
     app.close()
 
 
-def save_database():
-    bolt_url = "neo4j://localhost:7687"
-    # The default username for Neo4j
-    user = "neo4j"
-    # The password we use to gain access to the database
-    password = "mininet"
-    # Creating an app object from the db_testing file
-    app = db_testing.App(bolt_url, user, password)
-    temp = app.test1()
-    print(temp.values())
+# def save_database():
+#     bolt_url = "neo4j://localhost:7687"
+#     # The default username for Neo4j
+#     user = "neo4j"
+#     # The password we use to gain access to the database
+#     password = "mininet"
+#     # Creating an app object from the db_testing file
+#     app = db_testing.App(bolt_url, user, password)
+#     temp = app.test1()
+#     print(temp.values())
 
-def clear_database():
+def clear_database(db = "neo4j"):
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
     user = "neo4j"
@@ -345,7 +346,7 @@ def clear_database():
     password = "mininet"
     # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
-    result = app.clear_data()
+    result = app.clear_data(db)
     app.close()
     return result
 
