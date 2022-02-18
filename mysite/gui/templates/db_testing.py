@@ -103,8 +103,11 @@ class App:
         :param filename: the name of the file
         :return: the result of the function call
         """
+        # PATH USED FOR STANDARD NEO4J INSTALLATION
+        # path = str(Path.home()) + "/Desktop/" + str(filename) + ".csv"
 
-        path = str(Path.home()) + "/Desktop/" + str(filename) + ".csv"
+        # NEW PATH BASED ON NEO4J DESKTOP (CSV FILES ARE IN THE IMPORT DIRECTORY)
+        path = str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
     # ADDED FUNCTIONS 1/22/2022
