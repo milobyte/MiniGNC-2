@@ -22,6 +22,7 @@ class Host:
         :return: None
         """
         self.name = name
+        self.type = 'host'
         self.ip = ip
         self.link_log = ['No IPERF data', 'No PING data']
         self.IPERF_LOG = 0
@@ -70,6 +71,13 @@ class Host:
         """
         return self.name
 
+    def get_type(self):
+        """
+        Getter for the type of node this is
+        :return: type The type of node this object represents
+        """
+        return self.type
+
     def set_link_log(self, type, output):
         """
         Sets either the latest iPerf or Ping test information
@@ -89,14 +97,14 @@ class Host:
         Returns the latest Ping information
         :return: the latest Ping information
         """
-        return self.link_log[self.IPERF_LOG]
+        return self.link_log[self.IPERF_LOG].replace("'", "")
 
     def get_ping_log(self):
         """
         Returns the latest iPerf information
         :return: the latest iPerf information
         """
-        return self.link_log[self.PING_LOG]
+        return self.link_log[self.PING_LOG].replace("'", "")
 
 
 class Switch:
@@ -112,6 +120,7 @@ class Switch:
         :return: None
         """
         self.name = name
+        self.type = 'switch'
 
     def __str__(self):
         """
@@ -141,6 +150,13 @@ class Switch:
         """
         return self.name
 
+    def get_type(self):
+        """
+        Getter for the type of node this is
+        :return: type The type of node this object represents
+        """
+        return self.type
+
 
 class Controller:
     """
@@ -154,6 +170,7 @@ class Controller:
         :return: None
         """
         self.name = name
+        self.type = 'controller'
 
     def __str__(self):
         """
@@ -183,6 +200,13 @@ class Controller:
         """
         return self.name
 
+    def get_type(self):
+        """
+        Getter for the type of node this is
+        :return: type The type of node this object represents
+        """
+        return self.type
+
 
 class Link:
     """
@@ -199,6 +223,7 @@ class Link:
         """
         self.first = first
         self.second = second
+        self.type = 'type'
         self.bandwidth = 10 
         self.delay = '0ms'
         self.loss = None
@@ -289,6 +314,13 @@ class Link:
         """
         return self.delay
 
+    def get_loss(self):
+        """
+        Returns the value representing the precentage of loss in packets of a link 
+        :return: representing the precentage of loss in packets of a link  or None if loss was not initialized
+        """
+        return self.loss
+
     def set_loss(self, loss):
         """
         Sets a value representing the precentage of loss in packets of a link 
@@ -298,13 +330,6 @@ class Link:
         # SET RESTRICTIONS
         self.loss = loss
         print("LOSS: " + loss + " ADDED")
-
-    def get_loss(self):
-        """
-        Returns the value representing the precentage of loss in packets of a link 
-        :return: representing the precentage of loss in packets of a link  or None if loss was not initialized
-        """
-        return self.loss
 
     def set_queue_size(self, size):
         """
@@ -322,6 +347,13 @@ class Link:
         :return: value to the packet queue size of a link or None if the queue size was not initialized
         """
         return self.max_queue_size
+
+    def get_type(self):
+        """
+        Getter for the type of node this is
+        :return: type The type of node this object represents
+        """
+        return self.type
 
 
 graph = {
