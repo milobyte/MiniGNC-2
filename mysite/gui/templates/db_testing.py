@@ -5,8 +5,7 @@ from pathlib import Path
 
 
 class App:
-
-    def __init__(self, uri, username, pw):
+    def __init__(self, uri, username, pw, graph_name = None):
         """
         The constructor for the App object
         :param uri: The uri that is being used
@@ -15,6 +14,10 @@ class App:
         """
   
         self.driver = GraphDatabase.driver(uri, auth=(username, pw))
+        if graph_name is not None:
+            with self.driver.session() as session:
+                print("Creating New Database")
+                print(session.write_transaction(self._create_database, graph_name))
 
     def close(self):
         """
@@ -23,6 +26,16 @@ class App:
         """
         # Don't forget to close the driver connection when you are finished with it
         self.driver.close()
+    
+    @staticmethod
+    def _create_database(tx, graph_name):
+        query = "CREATE or REPLACE DATABASE " + graph_name
+        return tx.run(query)
+
+    @staticmethod
+    def _use_database(tx, graph_name):
+        query = "use " + graph_name
+        return tx.run(query)
 
     @staticmethod
     def _create_and_return_node(tx, node, graph_name, node_type, ip=None, iperf_log=None, ping_log=None):
