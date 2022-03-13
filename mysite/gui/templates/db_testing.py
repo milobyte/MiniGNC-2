@@ -58,7 +58,7 @@ class App:
 
         return tx.run(query, node=node, graph_name=graph_name).single()
 
-    def create_node(self, node_name, graph_name, node_type, ip=None, iperf_log=None, ping_log=None, db = "neo4j"):
+    def create_node(self, node_name, graph_name, node_type, ip=None, iperf_log=None, ping_log=None):
         """
         Calls the static method _create_and_return to add a single node
         :param ip: The IP of the node if it is specified, or None otherwise
@@ -69,7 +69,7 @@ class App:
         """
         # iperf_log = "'" + iperf_log + "'"
         # print(ping_log)
-        with self.driver.session(database=db) as session:
+        with self.driver.session(database=graph_name) as session:
             return session.write_transaction(self._create_and_return_node, node_name, graph_name, node_type, ip, iperf_log, ping_log)
 
     @staticmethod
@@ -87,7 +87,7 @@ class App:
                 "return type(r)".format(graph_name, graph_name, node1, node2, bw or "unlimited", delay or "none", loss or "none", queue_size or "none"))
         return tx.run(query)
 
-    def create_links_db(self, node1, node2, graph_name, bw, delay, loss, queue_size, db = "neo4j"):
+    def create_links_db(self, node1, node2, graph_name, bw, delay, loss, queue_size):
         """
         Calls _create_and_return_links_db method
         :param graph_name: the name of the graph
@@ -96,16 +96,16 @@ class App:
         :return: the result of the function call
         """
         # print(node1 + " " + node2)
-        with self.driver.session(database=db) as session:
+        with self.driver.session(database=graph_name) as session:
             return session.write_transaction(self._create_and_return_links_db, node1, node2, graph_name, bw, delay, loss, queue_size)
 
-    def create_csv(self, filename, db = "neo4j"):
+    def create_csv(self, filename):
         """
         Calls the static method _create_csv to export the csv file
-        :param filename: The name of the file
+        :param filename: The name of the file and graph database
         :return: The result from the function call
         """
-        with self.driver.session(database=db) as session:
+        with self.driver.session(database=filename) as session:
             return session.write_transaction(self._create_and_return_csv, filename)
 
     @staticmethod

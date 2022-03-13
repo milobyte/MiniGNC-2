@@ -313,14 +313,14 @@ def add_to_database(graph, graph_name):
     app = db_testing.App(bolt_url, user, password, graph_name)
 
     for host in graph.get('hosts'):
-        app.create_node(host.name, graph_name, host.type, host.ip, host.get_iperf_log(), host.get_ping_log(), graph_name)
+        app.create_node(host.name, graph_name, host.type, host.ip, host.get_iperf_log(), host.get_ping_log())
     for switch in graph.get('switches'):
-        app.create_node(switch.name, graph_name, switch.type, db = graph_name)
+        app.create_node(switch.name, graph_name, switch.type)
     for controller in graph.get('controllers'):
-        app.create_node(controller.name, graph_name, controller.type, db = graph_name)
+        app.create_node(controller.name, graph_name, controller.type)
     for link in graph.get('links'):
         print(app.create_links_db(link.get_first(), link.get_second(), graph_name, link.get_bandwidth(), 
-            link.get_delay(), link.get_loss(), link.get_queue_size(), db = graph_name).peek())
+            link.get_delay(), link.get_loss(), link.get_queue_size()).peek())
 
     app.create_csv(graph_name)
 
