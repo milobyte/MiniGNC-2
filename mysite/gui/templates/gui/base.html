@@ -142,6 +142,27 @@
     </form>
 </div>
 
+<div class="content-section box_background_color" id="database" style="width:16%; float:left; margin: 10px 0px 0px 50px; height: 700px">
+    <h2 class="color" style="margin-bottom:20px" align="center">Query Menu</h2>
+    <form action="#" method="get">
+        <label class="color">Choose a query for a specific network:</label>
+        <select name="single_select" id="single_select">
+            <option value="BW_GR">Bandwidth greater than 500mb/s</option>
+            <option value="BW_LS">Bandwidth less than 500mb/s</option>
+            <option value="LS_GR">Loss chance greater than 0%</option>
+            <option value="LS_LS">Loss chance greater than 0%</option>
+            <option value="DY_GR">Delay greater than 0ms</option>
+            <option value="DY_LS">Delay less than 0ms</option>
+            <option value="QU_GR">Queue size greater than 10mb</option>
+            <option value="QU_LS">Queue size less than 10mb</option>
+        </select>
+        <p style="display: inline-block; color: #ffffff">Specify the network/database name: </p>
+        <input type="text" value="example" id="network_name" name="network_name" />
+        <input style="margin-top:5px" type="submit" value="Run Query" name="single_query_databtn">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    </form>
+</div>
+
 <div class="content-section box_background_color" id="output" style="float: left; margin: 50px 0px 0px 100px; width:90%">
     <h2 class="color" style="margin-bottom:20px">Output</h2>
     <div style="background-color:#f3f2f2">

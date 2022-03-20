@@ -127,6 +127,19 @@ def home(request):
         filename = request.GET.get('save_file_name')
         buttons.add_to_database(graph_nodes, filename)
 
+    # This is the logic for when the run_single_query button is clicked
+    elif request.GET.get('single_query_databtn'):
+        conditional = request.GET.get('single_select')
+        network_name = request.GET.get('network_name')
+        if "BW" in conditional:
+            buttons.run_bw_query(conditional, network_name)
+        elif "LS" in conditional:
+            buttons.run_ls_query(conditional, network_name)
+        elif "DY" in conditional:
+            buttons.run_dy_query(conditional, network_name)
+        elif "QU" in conditional:
+            buttons.run_qu_query(conditional, network_name)
+
     # This is the logic for when the clear database button is clicked
     elif request.GET.get('clr_database'):
         db_name = request.GET.get('clear_file_name')

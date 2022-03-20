@@ -123,6 +123,30 @@ class App:
         path = str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
+    def run_single_data_query(self, db, spec):
+        """
+        Calls the static method that runs a condtional query in the database
+        :param spec: The conditional string used to run the query
+        :return: The result from the function call
+        """
+        with self.driver.session(database=db) as session:
+            return session.write_transaction(self._run_single_query, spec)
+            
+
+
+    @staticmethod 
+    def _run_single_query(tx, spec):
+        """
+        the static method that runs a condtional query in the database
+        :param spec: The conditional string used to run the query
+        :return: The result from the function call
+        """
+        query1 = ("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s,d")
+        results = tx.run(query1)
+        for record in enumerate(results):
+            print("ITERATE")
+            print(record)
+
     # ADDED FUNCTIONS 1/22/2022
     def clear_data(self, db):
         """

@@ -296,6 +296,20 @@ def run_mininet(extra):
     # Returning text to add to respective hosts' link logs
     return errors
 
+def init_database(graph_name = None):
+    """
+    function used to initialize the neo4j database
+    :param graph_name: the name of a new network to save to the database
+    """
+    bolt_url = "neo4j://localhost:7687"
+    # The default username for Neo4j
+    user = "neo4j"
+    # The password we use to gain access to the database
+    password = "mininet"
+    # Creating an app object from the db_testing file
+    app = db_testing.App(bolt_url, user, password, graph_name)
+
+    return app
 
 def add_to_database(graph, graph_name):
     """
@@ -408,6 +422,59 @@ def remove_assoc_links(node, graph):
             remove_links(link.first, link.second, graph)
 
     return
+
+def run_bw_query(condtional, network_name):
+    """
+    This function runs a query on the existing bandwidth properties of a specific network
+    :param condtitional: a parameter representing the query to run
+    :param network_name: a string representing the name of a network in the database
+    """
+    app = init_database()
+    if "GR" in condtional:
+        print(app.run_single_data_query(network_name, "toInteger(r.bandwidth) > 500"))
+    if "LS" in condtional:
+        app.run_single_data_query(network_name, "toInteger(r.bandwidth) < 500")
+
+    app.close()
+
+def run_ls_query(condtional, network_name):
+    """
+    This function runs a query on the existing loss chance properties of a specific network
+    :param condtitional: a parameter representing the query to run
+    :param network_name: a string representing the name of a network in the database
+    """
+    app = init_database()
+    if "GR" in condtional:
+        app.run_single_data_query(network_name, "r.loss <> 'none'")
+    if "LS" in condtional:
+        app.run_single_data_query(network_name, "r.loss = 'none'")
+    app.close()
+
+def run_dy_query(condtional, network_name):
+    """
+    This function runs a query on the existing delay properties of a specific network
+    :param condtitional: a parameter representing the query to run
+    :param network_name: a string representing the name of a network in the database
+    """
+    app = init_database()
+    if "GR" in condtional:
+        app.run_single_data_query(network_name, "r.delay <> '0ms'")
+    if "LS" in condtional:
+        app.run_single_data_query(network_name, "r.delay = '0ms'")
+    app.close()
+
+def run_qu_query(condtional, network_name):
+    """
+    This function runs a query on the existing queue properties of a specific network
+    :param condtitional: a parameter representing the query to run
+    :param network_name: a string representing the name of a network in the database
+    """
+    app = init_database()
+    if "GR" in condtional:
+        app.run_single_data_query(network_name, "toInteger(r.queue_size) > 10")
+    if "LS" in condtional:
+        app.run_single_data_query(network_name, "toInteger(r.queue_size) < 10 OR r.queue_size = 'none'")
+    app.close()
 
 if __name__ == '__main__':
     main()
