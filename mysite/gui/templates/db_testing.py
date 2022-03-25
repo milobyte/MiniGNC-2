@@ -141,11 +141,14 @@ class App:
         :param spec: The conditional string used to run the query
         :return: The result from the function call
         """
-        query1 = ("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s,d")
+        print("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
+        query1 = ("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
         results = tx.run(query1)
+
         for record in enumerate(results):
-            print("ITERATE")
-            print(record)
+            print(record[1].value(0) + " -> " + record[1].value(1))
+
+        return results
 
     # ADDED FUNCTIONS 1/22/2022
     def clear_data(self, db):

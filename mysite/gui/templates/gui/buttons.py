@@ -429,11 +429,12 @@ def run_bw_query(condtional, network_name):
     :param condtitional: a parameter representing the query to run
     :param network_name: a string representing the name of a network in the database
     """
+    
     app = init_database()
     if "GR" in condtional:
-        print(app.run_single_data_query(network_name, "toInteger(r.bandwidth) > 500"))
+        return app.run_single_data_query(network_name, "toInteger(r.bandwidth) > 500")
     if "LS" in condtional:
-        app.run_single_data_query(network_name, "toInteger(r.bandwidth) < 500")
+        return app.run_single_data_query(network_name, "toInteger(r.bandwidth) < 500")
 
     app.close()
 
@@ -445,9 +446,9 @@ def run_ls_query(condtional, network_name):
     """
     app = init_database()
     if "GR" in condtional:
-        app.run_single_data_query(network_name, "r.loss <> 'none'")
+        return app.run_single_data_query(network_name, "r.loss <> 'none'")
     if "LS" in condtional:
-        app.run_single_data_query(network_name, "r.loss = 'none'")
+        return app.run_single_data_query(network_name, "r.loss = 'none'")
     app.close()
 
 def run_dy_query(condtional, network_name):
@@ -458,9 +459,9 @@ def run_dy_query(condtional, network_name):
     """
     app = init_database()
     if "GR" in condtional:
-        app.run_single_data_query(network_name, "r.delay <> '0ms'")
+        return app.run_single_data_query(network_name, "r.delay <> '0ms'")
     if "LS" in condtional:
-        app.run_single_data_query(network_name, "r.delay = '0ms'")
+        return app.run_single_data_query(network_name, "r.delay = '0ms'")
     app.close()
 
 def run_qu_query(condtional, network_name):
@@ -471,9 +472,9 @@ def run_qu_query(condtional, network_name):
     """
     app = init_database()
     if "GR" in condtional:
-        app.run_single_data_query(network_name, "toInteger(r.queue_size) > 10")
+        return app.run_single_data_query(network_name, "toInteger(r.queue_size) > 10")
     if "LS" in condtional:
-        app.run_single_data_query(network_name, "toInteger(r.queue_size) < 10 OR r.queue_size = 'none'")
+        return app.run_single_data_query(network_name, "toInteger(r.queue_size) < 10 OR r.queue_size = 'none'")
     app.close()
 
 if __name__ == '__main__':
