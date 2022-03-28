@@ -141,11 +141,9 @@ def home(request):
         elif "QU" in conditional:
             results = buttons.run_qu_query(conditional, network_name)
 
-        result_str = ""
-        for record in enumerate(results):
-            result_str += (record[1].value(0) + " -> " + record[1].value(1) + "\n")
-
-        extra_text['ping'] = result_str
+        for result in results:
+            extra_text['ping'] += result + "\n"
+        # extra_text['ping'] = result_str
 
     # This is the logic for when the clear database button is clicked
     elif request.GET.get('clr_database'):

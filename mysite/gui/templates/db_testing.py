@@ -144,11 +144,14 @@ class App:
         print("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
         query1 = ("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
         results = tx.run(query1)
+        result_strings = []
 
         for record in enumerate(results):
             print(record[1].value(0) + " -> " + record[1].value(1))
+            result_strings.append(record[1].value(0) + " -> " + record[1].value(1))
 
-        return results
+
+        return result_strings
 
     # ADDED FUNCTIONS 1/22/2022
     def clear_data(self, db):
