@@ -122,13 +122,13 @@
         <label class="color">Choose a name for the database:</label>
         <input type="text" value="example" id="save_file_name" name="save_file_name" />
         <input style="margin-top:5px" type="submit" value="Save to Database" name="add_databtn">
-    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:15px 0px 15px">
     </form>
     <form action="#" method="get">
         <label class="color">Clear the database (FOR DEV PURPOSES ONLY):</label>
         <input type="text" value="Graph Name Here" id="clear_file_name" name="clear_file_name" />
         <input style="margin-top:5px" type="submit" value="Clear Database" name="clr_database">
-    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:15px 0px 15px">
     </form>
     <form action="#" method="get">
         <label class="color">Select a csv file to load:</label>
@@ -139,6 +139,11 @@
         <label class="color">Select a csv file to remove nodes:</label>
         <input style="color: #ffffff" type="file" name="remove_databtn" id="remove_databtn" accept=".csv">
         <input style="margin-top:5px" type="submit" value="Remove" id="submit_rm_filename"/>
+        <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:15px">
+    </form>
+    <form action="#" method="get">
+        <label class="color">List currently saved databases:</label>
+        <input style="margin-top:5px" type="submit" value="List All" name="list_all_databtn">
     </form>
 </div>
 
@@ -150,9 +155,9 @@
             <option value="BW_GR">Bandwidth greater than 500mb/s</option>
             <option value="BW_LS">Bandwidth less than 500mb/s</option>
             <option value="LS_GR">Loss chance greater than 0%</option>
-            <option value="LS_LS">Loss chance greater than 0%</option>
+            <option value="LS_LS">Loss equal to 0%</option>
             <option value="DY_GR">Delay greater than 0ms</option>
-            <option value="DY_LS">Delay less than 0ms</option>
+            <option value="DY_LS">Delay equal to 0ms</option>
             <option value="QU_GR">Queue size greater than 10mb</option>
             <option value="QU_LS">Queue size less than 10mb</option>
         </select>

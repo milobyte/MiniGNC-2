@@ -37,6 +37,27 @@ class App:
         query = "use " + graph_name
         return tx.run(query)
 
+    def list_all(self):
+        """
+        Calls the static method _list_databases to return all database names on the system
+        :return: None
+        """
+        with self.driver.session() as session:
+            return session.write_transaction(self._list_databases)
+
+    @staticmethod
+    def _list_databases(tx):
+        query = "SHOW DATABASES"
+        results = tx.run(query)
+        result_strings = []
+
+        for record in enumerate(results):
+            db_name = record[1].value(0)
+            if db_name != "neo4j" and db_name != "system":
+                result_strings.append(db_name)
+
+        return result_strings
+
     @staticmethod
     def _create_and_return_node(tx, node, graph_name, node_type, ip=None, iperf_log=None, ping_log=None):
         """
@@ -129,6 +150,7 @@ class App:
         :param spec: The conditional string used to run the query
         :return: The result from the function call
         """
+        print("db is " + db)
         with self.driver.session(database=db) as session:
             return session.write_transaction(self._run_single_query, spec)
             
@@ -141,7 +163,6 @@ class App:
         :param spec: The conditional string used to run the query
         :return: The result from the function call
         """
-        print("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
         query1 = ("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
         results = tx.run(query1)
         result_strings = []

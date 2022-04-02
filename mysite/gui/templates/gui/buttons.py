@@ -423,6 +423,12 @@ def remove_assoc_links(node, graph):
 
     return
 
+def get_databases():
+    app = init_database()
+    db_list = app.list_all()
+    app.close()
+    return db_list
+
 def run_bw_query(condtional, network_name):
     """
     This function runs a query on the existing bandwidth properties of a specific network

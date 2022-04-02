@@ -131,7 +131,7 @@ def home(request):
     elif request.GET.get('single_query_databtn'):
         conditional = request.GET.get('single_select')
         network_name = request.GET.get('network_name')
-        
+        print("NETWORK NAME IS: " + network_name)
         if "BW" in conditional:
             results = buttons.run_bw_query(conditional, network_name)
         elif "LS" in conditional:
@@ -144,6 +144,12 @@ def home(request):
         for result in results:
             extra_text['ping'] += result + "\n"
         # extra_text['ping'] = result_str
+
+    elif request.GET.get('list_all_databtn'):
+        db_list = buttons.get_databases()
+        extra_text['ping'] = "------------Databases--------------\n"
+        for db in db_list:
+            extra_text['ping'] += db + "\n"
 
     # This is the logic for when the clear database button is clicked
     elif request.GET.get('clr_database'):
