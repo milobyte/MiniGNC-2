@@ -163,7 +163,7 @@ class App:
         :param spec: The conditional string used to run the query
         :return: The result from the function call
         """
-        query1 = ("MATCH (s:example)-[r:PORT]->(d:example) WHERE " + spec + " RETURN s.name,d.name")
+        query1 = ("MATCH (s)-[r:PORT]->(d) WHERE " + spec + " RETURN s.name,d.name")
         results = tx.run(query1)
         result_strings = []
 
