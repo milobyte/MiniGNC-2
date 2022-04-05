@@ -483,5 +483,9 @@ def run_qu_query(condtional, network_name):
         return app.run_single_data_query(network_name, "toInteger(r.queue_size) < 10 OR r.queue_size = 'none'")
     app.close()
 
+def run_generic_query(network_name, condition):
+    app = init_database()
+    return app.run_single_data_query(network_name, condition)
+
 if __name__ == '__main__':
     main()

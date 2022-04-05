@@ -150,7 +150,7 @@ class App:
         :param spec: The conditional string used to run the query
         :return: The result from the function call
         """
-        print("db is " + db)
+        print("db is " + db + " spec is " + spec)
         with self.driver.session(database=db) as session:
             return session.write_transaction(self._run_single_query, spec)
             

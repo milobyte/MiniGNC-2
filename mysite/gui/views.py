@@ -144,7 +144,26 @@ def home(request):
         for result in results:
             extra_text['ping'] += result + "\n"
         # extra_text['ping'] = result_str
+    
+    # This is the logic for when the all_query_databtn button is clicked
+    elif request.GET.get('all_query_databtn'):
+        link_param_type = request.GET.get('all_select_type')
+        comparison_type = request.GET.get('all_select_comparison')
+        comparison_number = request.GET.get('all_text_number')
+        
+        db_list = buttons.get_databases()
+        extra_text['ping'] = "Query Results Across All Databases Where " + link_param_type + comparison_type + comparison_number + "\n\n"
 
+        condition = "toInteger(r." + link_param_type + ") " + comparison_type + " " + comparison_number
+        print("Querying All Databases with: " + condition)
+
+        for db in db_list:
+            extra_text['ping'] += "-----Results From " + db + "-----\n"
+            results = buttons.run_generic_query(db, condition)
+            for result in results:
+                extra_text['ping'] += "\t" + result + "\n"
+
+    # This is the logic for when the list all button is clicked
     elif request.GET.get('list_all_databtn'):
         db_list = buttons.get_databases()
         extra_text['ping'] = "------------Databases--------------\n"

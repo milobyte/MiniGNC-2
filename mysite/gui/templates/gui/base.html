@@ -165,6 +165,24 @@
         <input type="text" value="example" id="network_name" name="network_name" />
         <input style="margin-top:5px" type="submit" value="Run Query" name="single_query_databtn">
     <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    	<label class="color">Choose a query for all networks:</label>
+        <select name="all_select_type" id="all_select_type">
+            <option value="bandwidth">Bandwidth</option>
+            <option value="loss">Loss Chance</option>
+            <option value="delay">Delay</option>
+            <option value="queue_size">Queue Size</option>
+        </select>
+	<select name="all_select_comparison" id="all_select_comparison">
+	    <option value=">">Greater Than</option>
+	    <option value="<">Less Than</option>
+	    <option value="=">Equal To</option>
+	    <option value='<>'>Not Equal TO</option>
+	</select>
+	<input type="number" id="all_text_number" name="all_text_number"/>
+
+        <input style="margin-top:5px" type="submit" value="Run Query" name="all_query_databtn">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+
     </form>
 </div>
 
