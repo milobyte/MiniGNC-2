@@ -454,7 +454,7 @@ def run_ls_query(condtional, network_name):
     if "GR" in condtional:
         return app.run_single_data_query(network_name, "r.loss <> 'none'")
     if "LS" in condtional:
-        return app.run_single_data_query(network_name, "r.loss = 'none'")
+        return app.run_single_data_query(network_name, "r.loss = '0'")
     app.close()
 
 def run_dy_query(condtional, network_name):
@@ -478,9 +478,9 @@ def run_qu_query(condtional, network_name):
     """
     app = init_database()
     if "GR" in condtional:
-        return app.run_single_data_query(network_name, "toInteger(r.queue_size) > 10")
+        return app.run_single_data_query(network_name, "toInteger(r.queue_size) >= 1000")
     if "LS" in condtional:
-        return app.run_single_data_query(network_name, "toInteger(r.queue_size) < 10 OR r.queue_size = 'none'")
+        return app.run_single_data_query(network_name, "toInteger(r.queue_size) < 1000")
     app.close()
 
 def run_generic_query(network_name, condition):

@@ -226,8 +226,8 @@ class Link:
         self.type = 'type'
         self.bandwidth = 10 
         self.delay = '0ms'
-        self.loss = None
-        self.max_queue_size = None
+        self.loss = '0'
+        self.max_queue_size = '1000'
 
     def __str__(self):
         """

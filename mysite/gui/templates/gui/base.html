@@ -152,14 +152,14 @@
     <form action="#" method="get">
         <label class="color">Choose a query for a specific network:</label>
         <select name="single_select" id="single_select">
-            <option value="BW_GR">Bandwidth greater than 500mb/s</option>
-            <option value="BW_LS">Bandwidth less than 500mb/s</option>
-            <option value="LS_GR">Loss chance greater than 0%</option>
-            <option value="LS_LS">Loss equal to 0%</option>
-            <option value="DY_GR">Delay greater than 0ms</option>
-            <option value="DY_LS">Delay equal to 0ms</option>
-            <option value="QU_GR">Queue size greater than 10mb</option>
-            <option value="QU_LS">Queue size less than 10mb</option>
+            <option value="BW_GR">Bandwidth > 500mb/s</option>
+            <option value="BW_LS">Bandwidth < 500mb/s</option>
+            <option value="LS_GR">Loss chance > 0%</option>
+            <option value="LS_LS">Loss chance = 0%</option>
+            <option value="DY_GR">Delay > 0ms</option>
+            <option value="DY_LS">Delay = 0ms</option>
+            <option value="QU_GR">Queue size >= 1000 packets</option>
+            <option value="QU_LS">Queue size < 1000 packets</option>
         </select>
         <p style="display: inline-block; color: #ffffff">Specify the network/database name: </p>
         <input type="text" value="example" id="network_name" name="network_name" />
