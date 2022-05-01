@@ -37,6 +37,8 @@ From the root of the Capstone directory...
    - Note: When CSV files are saved through the program, they are stored within the import folder of a Neo4J Desktop project. To access this folder, click on the three dots to the right most side of your Neo4j project tab, click on 'Open Folder', and click on 'DBMS'. This will open the directory storing information about your Neo4J project. The install directory should be here. (These directions are in regards to Neo4j Desktop version: 1.4.15)
 3. Ensure the Neo4J Desktop project is running and you should be good to go!
 
+## Notable Errors:
+ - If a test in bandwidth or latency fails, specifically without the program catching the error, there is a chance that Mininet's locally stored network components will become bugged. A common error that occurs because of this is the 'RHETLINK EXISTS' error which occurs due to network components not being broken down/reset after initializing them. In this case: run the command 'sudo mn -c'. This will reset Mininet's statistics and allow you to reinitialize network componenets. 
 ---
 
 This project is licensed under the terms of the MIT license.
