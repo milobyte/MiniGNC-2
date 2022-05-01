@@ -32,8 +32,10 @@ From the root of the Capstone directory...
 
 **Making the program compatible with Neo4J:**
 1. Open Neo4J Desktop and set up a new project.
-   - Projects are used to contain the networks that a user saves through MiniGNC. Please take note of the port number.
-2.
+   - Projects are used to contain the networks that a user saves through MiniGNC. Please take note of the port number and match it with the port number used to initialize the Neo4J App object, specifically in regards to the bolt_url variable. Refer to the init_database function in buttons.py for more details. 
+2. Install the APOC Library plugin for the project meant to host your database. A list of libraries should be provided through Neo4J Desktop's Plugins tab.
+   - Note: When CSV files are saved through the program, they are stored within the import folder of a Neo4J Desktop project. To access this folder, click on the three dots to the right most side of your Neo4j project tab, click on 'Open Folder', and click on 'DBMS'. This will open the directory storing information about your Neo4J project. The install directory should be here. (These directions are in regards to Neo4j Desktop version: 1.4.15)
+3. Ensure the Neo4J Desktop project is running and you should be good to go!
 
 ---
 
