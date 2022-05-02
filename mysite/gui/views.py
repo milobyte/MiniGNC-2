@@ -92,7 +92,7 @@ def home(request):
         link = nodes.Link(first, second)
         if bandwidth != 'default' and bandwidth.isdigit():
             link.set_bandwidth(bandwidth)
-        if delay != 'default' and ((delay[-2:]) == 'ms') and (delay[:-2].isdigit()):
+        if delay != 'default' and delay.isdigit():
             link.set_delay(delay)
         if loss != 'default' and loss.isdigit():
             link.set_loss(loss)
@@ -380,7 +380,7 @@ def set_link_params(link, row):
     try:
         if row['_delay'] != "":
             delay_value = row.get('_delay')
-            if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
+            if (delay_value.isdigit()):
                 # print("Added new delay " + delay_value)
                 link.set_delay(delay_value)
     

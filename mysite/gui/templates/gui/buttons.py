@@ -493,9 +493,9 @@ def run_dy_query(condtional, network_name):
     """
     app = init_database()
     if "GR" in condtional:
-        return app.run_single_data_query(network_name, "r.delay <> '0ms'")
+        return app.run_single_data_query(network_name, "r.delay <> '0'")
     if "LS" in condtional:
-        return app.run_single_data_query(network_name, "r.delay = '0ms'")
+        return app.run_single_data_query(network_name, "r.delay = '0'")
     app.close()
 
 def run_qu_query(condtional, network_name):

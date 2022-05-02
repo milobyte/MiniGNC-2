@@ -255,7 +255,7 @@ class Link:
         self.second = second
         self.type = 'type'
         self.bandwidth = 10 
-        self.delay = '0ms'
+        self.delay = '0'
         self.loss = '0'
         self.max_queue_size = '1000'
 
@@ -281,7 +281,7 @@ class Link:
 
         # Defining the linkOpts object for defining link parameters
         linkOptsString = ("link_opts = dict(bw = " + str(self.bandwidth) + ", delay = '" + str(self.delay) + 
-            "', loss = " + str(self.loss) + ", max_queue_size = " + str(self.max_queue_size) + ")\n")
+            "ms', loss = " + str(self.loss) + ", max_queue_size = " + str(self.max_queue_size) + ")\n")
         
         # Defining the addLink function with linkOpts
         linkInitializer = (linkOptsString + self.first + self.second + " = net.addLink( '" + 
