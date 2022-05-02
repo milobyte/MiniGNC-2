@@ -24,13 +24,20 @@ The purpose of this project is to eventually graphically simulate Software Defin
 you must change `mysite/gui/templates/gui/buttons.py line <UPDATE>` to your sudo password.  
 Yes, this is insecure for native installs and should be handled differently in the future.
 
-**To Run The Project:**
+## To Run The Project:
 From the root of the Capstone directory...  
-1. Enter `python3 mysite/manage.py runserver`
-2. Click on "http://127.0.0.1:8000/" or navigate there from your preferred browser.  
-**Note:** Saving networks to the database requires starting Neo4j. Please follow the instructions provided below on how to set up Neo4J.
+1. Activate the Python virtual environment by running the 'venv/bin/activate' program
+2. Enter `python3 mysite/manage.py runserver`
+3. Click on "http://127.0.0.1:8000/" or navigate there from your preferred browser.  
 
-**Making the program compatible with Neo4J:**
+**Alias Note:** These are the alias' we used during development. Feel free to insert these into your local bashrc file and modify them for your setup for easier boot up.  
+ - alias venv-activate='. ~/Capstone/MiniGNC-2/install/venv/bin/activate'
+ - alias minignc-start='python3 ~/Capstone/MiniGNC-2/mysite/manage.py runserver'
+
+
+**Neo4J Note:** Saving networks to the database requires starting Neo4j. Please follow the instructions provided below on how to set up Neo4J.
+
+## Making the program compatible with Neo4J:
 1. Open Neo4J Desktop and set up a new project.
    - Projects are used to contain the networks that a user saves through MiniGNC. Please take note of the port number and match it with the port number used to initialize the Neo4J App object, specifically in regards to the bolt_url variable. Refer to the init_database function in buttons.py for more details. 
 2. Install and configure the APOC library by following the configuration instructions located at 'install/APOC CONFIG DIR.pdf'. 
