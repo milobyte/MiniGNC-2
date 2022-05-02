@@ -67,19 +67,19 @@ def home(request):
         name = request.GET.get('add_host_name')
         ip = request.GET.get('add_host_ip')
         host = nodes.Host(name, ip)
-        graph_nodes['hosts'].append(host)
+        graph_appender(graph_nodes['hosts'], host)
 
     # This is the logic for when the add switch button is clicked
     elif request.GET.get('add_switch_btn'):
         name = request.GET.get('add_switch_name')
         switch = nodes.Switch(name)
-        graph_nodes['switches'].append(switch)
+        graph_appender(graph_nodes['switches'], switch)
 
     # This is the logic for when the add controller button is clicked
     elif request.GET.get('add_controller_btn'):
         name = request.GET.get('add_controller_name')
         controller = nodes.Controller(name)
-        graph_nodes['controllers'].append(controller)
+        graph_appender(graph_nodes['controllers'], controller)
 
     # This is the logic for when the add link button is clicked
     elif request.GET.get('add_link_btn'):
@@ -99,7 +99,7 @@ def home(request):
         if queue_size != 'default' and queue_size.isdigit():
             link.set_queue_size(queue_size)
 
-        graph_nodes['links'].append(link)
+        graph_appender(graph_nodes['links'], link)
 
     # This is the logic for when the graph button is clicked
     elif request.GET.get('graphbtn'):
@@ -191,11 +191,11 @@ def home(request):
                 # if row['_labels'] == ":" + file.replace(".csv", ""):
                 if row['_labels'] != "":
                     if row['type'] == 'host':
-                        graph_nodes['hosts'].append(nodes.Host(row.get('name'), row.get('ip')))
+                        graph_appender(graph_nodes['hosts'], nodes.Host(row.get('name'), row.get('ip')))
                     elif row['type'] == 'switch':
-                        graph_nodes['switches'].append(nodes.Switch(row.get('name')))
+                        graph_appender(graph_nodes['switches'], nodes.Switch(row.get('name')))
                     elif row['type'] == 'controller':
-                        graph_nodes['controllers'].append(nodes.Controller(row.get('name')))
+                        graph_appender(graph_nodes['controllers'], nodes.Controller(row.get('name')))
 
                 if row['_start'] != "":
                     first_index = row.get('_start')
@@ -209,7 +209,7 @@ def home(request):
                             second = item.get('name')
                     link = nodes.Link(first, second)
                     set_link_params(link, row)
-                    graph_nodes['links'].append(link)
+                    graph_appender(graph_nodes['links'], link)
 
     #  This is the logic for when the remove_data button is clicked
     elif request.GET.get('remove_databtn'):
@@ -407,6 +407,19 @@ def set_link_params(link, row):
     except KeyError:
         pass
 
+def graph_appender(list, object):
+    """
+    This method ensures that the object being added isn't already within the network. If it isn't, it is added to it's respective lsit
+    :param list: the list to check for duplicates
+    :param object: the object to be added if it is unique
+    Author: Noah and Miles
+    """
+    for item in list:
+        # print(str(item) + " compared to " + str(object))
+        if item.equals(object):
+            print("ERROR: Duplicate node ignored: " + str(object))
+            return
+    list.append(object)
 
 def graph(request):
     """

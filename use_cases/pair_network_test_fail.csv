@@ -1,0 +1,15 @@
+"_id","_labels","ip","name","type","_start","_end","_type","_bw","_delay","_loss","_queue"
+0,":pair_network","127.0.0.1","a1","host",,,,,,,
+0,":pair_network","127.0.0.1","a1","host",,,,,,,
+1,":pair_network","127.0.0.2","a2","host",,,,,,,
+2,":pair_network","127.0.0.3","b1","host",,,,,,,
+3,":pair_network","127.0.0.4","b2","host",,,,,,,
+4,":pair_network","127.0.0.5","c1","host",,,,,,,
+5,":pair_network","127.0.0.6","c2","host",,,,,,,
+6,":pair_network","127.0.0.7","d1","host",,,,,,,
+7,":pair_network","127.0.0.8","d2","host",,,,,,,
+,,,,,0,1,"PORT",1,"1000ms",,30
+,,,,,0,1,"PORT",1,"1000ms",,30
+,,,,,2,3,"PORT",,,75,
+,,,,,4,5,"PORT",1000,,,
+,,,,,6,7,"PORT",,,,1

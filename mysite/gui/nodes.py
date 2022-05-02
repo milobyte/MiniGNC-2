@@ -12,7 +12,7 @@ class Host:
     """
     This class represents a Host object within the network.
     author: Originally written by Cade Tipton and Gatlin Criz
-    author: Additional modifications by Miles Stanley (50%)
+    author: Additional modifications by Miles Stanley (80%)
     """
     def __init__(self, name, ip):
         """
@@ -106,12 +106,22 @@ class Host:
         """
         return self.link_log[self.PING_LOG].replace("'", "")
 
+    def equals(self, other):
+        """
+        Returns True is the object is equal, False otherwise
+        :param other: the comparing object
+        """
+        if(type(other) == Host):
+            if((self.name == other.get_name() and self.ip == other.get_ip())):
+                return True
+        return False
+
 
 class Switch:
     """
     This class represents a Switch object within the network.
     author: Originally written by Cade Tipton and Gatlin Criz
-    author: Additional modifications by Miles Stanley (20%)
+    author: Additional modifications by Miles Stanley (40%)
     """
     def __init__(self, name):
         """
@@ -157,11 +167,21 @@ class Switch:
         """
         return self.type
 
+    def equals(self, other):
+        """
+        Returns True is the object is equal, False otherwise
+        :param other: the comparing object
+        """
+        if(type(other) == Switch):
+            if((self.name == other.get_name())):
+                return True
+        return False
+
 
 class Controller:
     """
     This class represents a Controller object within the network.
-    author: Originally written by Cade Tipton and Gatlin Criz
+    author: Originally written by Cade Tipton and Gatlin Cruz
     """
     def __init__(self, name):
         """
@@ -207,12 +227,22 @@ class Controller:
         """
         return self.type
 
+    def equals(self, other):
+        """
+        Returns True is the object is equal, False otherwise
+        :param other: the comparing object
+        """
+        if(type(other) == Controller):
+            if((self.name == other.get_name())):
+                return True
+        return False
+
 
 class Link:
     """
     This class represents a Host object within the network.
     author: Originally written by Cade Tipton and Gatlin Criz
-    author: Additional modifications by Noah Lowry and Miles Stanley (80%)
+    author: Additional modifications by Noah Lowry and Miles Stanley (90%)
     """
     def __init__(self, first, second):
         """
@@ -354,6 +384,16 @@ class Link:
         :return: type The type of node this object represents
         """
         return self.type
+
+    def equals(self, other):
+        """
+        Returns True is the object is equal, False otherwise
+        :param other: the comparing object
+        """
+        if(type(other) == Link):
+            if((self.first == other.get_first() and self.second == other.get_second())):
+                return True
+        return False
 
 
 graph = {
