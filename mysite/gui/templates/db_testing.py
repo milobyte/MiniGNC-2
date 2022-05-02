@@ -11,6 +11,7 @@ class App:
         :param uri: The uri that is being used
         :param username: The username that is used to gain access to the database
         :param pw: The password that is used to gain access to the database
+        Author: Cade and Gatlin. Edited by Noah and Miles (80%)
         """
   
         self.driver = GraphDatabase.driver(uri, auth=(username, pw))
@@ -23,17 +24,32 @@ class App:
         """
         Closes the driver object connection
         :return: None
+        Author: Cade and Gatlin
         """
         # Don't forget to close the driver connection when you are finished with it
         self.driver.close()
     
     @staticmethod
     def _create_database(tx, graph_name):
+        """
+        Initializes or replaces an existing database within the system.
+        :param tx: The Neo4J transaction object used to run the command
+        :param graph_name: the name of the network
+        :return: the results of the query
+        Author: Cade and Gatlin. Edited by Noah and Miles (50%)
+        """
         query = "CREATE or REPLACE DATABASE " + graph_name
         return tx.run(query)
 
     @staticmethod
     def _use_database(tx, graph_name):
+        """
+        Switches which database/network to run queries on.
+        :param tx: The Neo4J transaction object used to run the command
+        :param graph_name: the name of the network
+        :return: the results of the query
+        Author: Cade and Gatlin.
+        """
         query = "use " + graph_name
         return tx.run(query)
 
@@ -41,12 +57,19 @@ class App:
         """
         Calls the static method _list_databases to return all database names on the system
         :return: None
+        Author: Miles Stanley
         """
         with self.driver.session() as session:
             return session.write_transaction(self._list_databases)
 
     @staticmethod
     def _list_databases(tx):
+        """
+        Creates and returns a list of every database/network within the Neo4J project
+        :param tx: The Neo4J transaction object used to run the command
+        :return: a list of every database/network within the Neo4J project
+        Author: Miles and Noah
+        """
         query = "SHOW DATABASES"
         results = tx.run(query)
         result_strings = []
@@ -67,6 +90,7 @@ class App:
         :param node_type: The type of the node (host, switch, or controller)
         :param graph_name: the name of the graph
         :return: The result from the function call
+        Author Cade and Gatlin. Edited by Noah and Miles (60%)
         """
 
         # REDO WITH STRING FORMATTING
@@ -87,6 +111,7 @@ class App:
         :param graph_name: the name of the graph
         :param node_name: The name of the node
         :return: The result from the function call
+        Author: Cade and Gatlin. Edited by Noah and Miles (50%)
         """
         # iperf_log = "'" + iperf_log + "'"
         # print(ping_log)
@@ -101,6 +126,7 @@ class App:
         :param node1: the starting node in the link
         :param node2: the ending node in the link
         :return: the result of the function call
+        Author: Cade and Gatlin. Edited by Noah and Miles (50%)
         """
         query = ("MATCH (a:{}), (b:{})"
                 "WHERE a.name = '{}' AND b.name = '{}'"
@@ -115,6 +141,7 @@ class App:
         :param node1: the starting node in the link
         :param node2: the ending node in the link
         :return: the result of the function call
+        Author: Cade and Gatlin. Edited by Noah and Miles (50%)
         """
         # print(node1 + " " + node2)
         with self.driver.session(database=graph_name) as session:
@@ -125,6 +152,7 @@ class App:
         Calls the static method _create_csv to export the csv file
         :param filename: The name of the file and graph database
         :return: The result from the function call
+        Author: Cade and Gatlin. Edited by Noah and Miles (10%)
         """
         with self.driver.session(database=filename) as session:
             return session.write_transaction(self._create_and_return_csv, filename)
@@ -136,6 +164,7 @@ class App:
         :param tx: the object that runs the query
         :param filename: the name of the file
         :return: the result of the function call
+        Author: Cade and Gatlin.
         """
         # PATH USED FOR STANDARD NEO4J INSTALLATION
         # path = str(Path.home()) + "/Desktop/" + str(filename) + ".csv"
@@ -147,8 +176,10 @@ class App:
     def run_single_data_query(self, db, spec):
         """
         Calls the static method that runs a condtional query in the database
+        :param db: The name of the database/network to clear
         :param spec: The conditional string used to run the query
         :return: The result from the function call
+        Author: Noah and Miles
         """
         print("db is " + db + " spec is " + spec)
         with self.driver.session(database=db) as session:
@@ -162,6 +193,7 @@ class App:
         the static method that runs a condtional query in the database
         :param spec: The conditional string used to run the query
         :return: The result from the function call
+        Author: Noah and Miles
         """
         query1 = ("MATCH (s)-[r:PORT]->(d) WHERE " + spec + " RETURN s.name,d.name")
         results = tx.run(query1)
@@ -178,7 +210,9 @@ class App:
     def clear_data(self, db):
         """
         Calls the static method _clear_database to delete all nodes and relationships in the database
+        :param db: The name of the database/network to clear
         :return: The result from the function call
+        Author: Noah and Miles
         """
         with self.driver.session(database=db) as session:
             return session.write_transaction(self._clear_database)
@@ -189,6 +223,7 @@ class App:
         Clears the database of all nodes and relationships.
         :param tx: the object that runs the query
         :return: the result of the function call
+        Author: Noah and Miles
         """
         query1 = ("MATCH (n)"
                  "DETACH DELETE n")

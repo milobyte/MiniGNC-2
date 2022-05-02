@@ -237,6 +237,7 @@ def make_file(graph):
 def get_mininet_file():
     """
     Returns a reference to the new file used to run Mininet commands
+    Author: Written by Cade and Gatlin.
     """
     path = str(Path.home()) + "/Desktop/"
     return open(path + "new_file.py", "a")
@@ -263,6 +264,7 @@ def add_ping_all():
 def add_iperf(host1, host2):
     """
     Method to test the throughput between two hosts.
+    Author: Written by Cade and Gatlin.
     """
     new_file = get_mininet_file()
     new_file.write("\nnet.start()\nnet.iperf([" + host1 + ", " + host2 + "])\nnet.stop()\n")
@@ -273,6 +275,7 @@ def run_mininet(extra):
     Method to run Mininet in the background so the user can run commands through it
     :param extra: The holder for the results to be stored to
     :return: None
+    Author: Written by Cade and Gatlin. Edited by Noah and Miles (20%)
     """
 
     path = str(Path.home()) + "/Desktop/"
@@ -300,6 +303,7 @@ def init_database(graph_name = None):
     """
     function used to initialize the neo4j database
     :param graph_name: the name of a new network to save to the database
+    Author: Written by Cade and Gatlin.
     """
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
@@ -317,6 +321,7 @@ def add_to_database(graph, graph_name):
     :param graph: The graph list with the values for the network
     :param graph_name: The name of the graph
     :return: None
+    Author: Written by Cade and Gatlin. Edited by Noah and Miles (50%)
     """
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
@@ -353,6 +358,11 @@ def add_to_database(graph, graph_name):
 #     print(temp.values())
 
 def clear_database(db = "neo4j"):
+    """
+    This method clears a particular database/network from a Neo4J project.
+    :param db: the name of the database/network to clear.
+    Author: Written by Noah and Miles.
+    """
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
     user = "neo4j"
@@ -367,6 +377,8 @@ def clear_database(db = "neo4j"):
 def remove_host(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    :param node: the node to remove from a graph
+    :param graph: the graph object that represents a network
     Author: Miles and Noah
     """
     for host in graph['hosts']:
@@ -379,6 +391,8 @@ def remove_host(node, graph):
 def remove_switch(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    :param node: the node to remove from a graph
+    :param graph: the graph object that represents a network
     Author: Noah and Miles
     """
     for switch in graph['switches']:
@@ -391,6 +405,8 @@ def remove_switch(node, graph):
 def remove_controller(node, graph):
     """
     This method removes a node from the graph by checking for equivilant attributes within a list
+    :param node: the node to remove from a graph
+    :param graph: the graph object that represents a network
     Author: Miles and Noah
     """
     for controller in graph['controllers']:
@@ -402,7 +418,10 @@ def remove_controller(node, graph):
 
 def remove_links(first_name, second_name, graph):
     """
-    This method removes a node from the graph by checking for equivilant attributes within a list
+    This method removes a link from the graph by checking for equivilant attributes within a list
+    :param first_name: the name of the first node within a respective link to remove
+    :param second_name: the name of the second node within a respective link to remove
+    :param graph: the graph object that represents a network
     Author: Miles and Noah
     """
     for link in graph['links']:
@@ -414,6 +433,8 @@ def remove_links(first_name, second_name, graph):
 def remove_assoc_links(node, graph):
     """
     This method removes any links associated with a node
+    :param node: the node to remove links from within a graph
+    :param graph: the graph object that represents a network
     Author: Miles and Noah
     """
     for link in copy.deepcopy(graph['links']):
@@ -424,6 +445,10 @@ def remove_assoc_links(node, graph):
     return
 
 def get_databases():
+    """
+    Returns a list of all the databases saved within the Neo4J project.
+    Author: Miles and Noah
+    """
     app = init_database()
     db_list = app.list_all()
     app.close()
@@ -434,6 +459,7 @@ def run_bw_query(condtional, network_name):
     This function runs a query on the existing bandwidth properties of a specific network
     :param condtitional: a parameter representing the query to run
     :param network_name: a string representing the name of a network in the database
+    Author: Miles and Noah
     """
     
     app = init_database()
@@ -449,6 +475,7 @@ def run_ls_query(condtional, network_name):
     This function runs a query on the existing loss chance properties of a specific network
     :param condtitional: a parameter representing the query to run
     :param network_name: a string representing the name of a network in the database
+    Author: Miles and Noah
     """
     app = init_database()
     if "GR" in condtional:
@@ -462,6 +489,7 @@ def run_dy_query(condtional, network_name):
     This function runs a query on the existing delay properties of a specific network
     :param condtitional: a parameter representing the query to run
     :param network_name: a string representing the name of a network in the database
+    Author: Miles and Noah
     """
     app = init_database()
     if "GR" in condtional:
@@ -475,6 +503,7 @@ def run_qu_query(condtional, network_name):
     This function runs a query on the existing queue properties of a specific network
     :param condtitional: a parameter representing the query to run
     :param network_name: a string representing the name of a network in the database
+    Author: Miles and Noah
     """
     app = init_database()
     if "GR" in condtional:
@@ -484,6 +513,13 @@ def run_qu_query(condtional, network_name):
     app.close()
 
 def run_generic_query(network_name, condition):
+    """
+    This function runs a generic query on an existing network within the database.
+    :param network_name: the network to run the query on
+    :param condition: the condition variable associated with the query.
+    :return: the results of the query
+    Author: Noah
+    """
     app = init_database()
     return app.run_single_data_query(network_name, condition)
 
