@@ -4,23 +4,6 @@
 # installing mininet
 sudo apt-get -y install mininet
 
-# adding neo4j repo
-wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
-sudo apt-get update
-
-# installing neo4j
-sudo apt-get -y install neo4j=1:4.2.3
-
-# setting neo4j password
-sudo neo4j-admin set-initial-password mininet
-
-# moving apoc for exporting to network to csv
-sudo mv /var/lib/neo4j/labs/apoc-4.2.0.1-core.jar /var/lib/neo4j/plugins/
-
-# copying apoc.conf for csv file saving
-sudo cp apoc.conf /etc/neo4j/
-
 # install python3-venv
 sudo apt-get -y install python3-venv
 

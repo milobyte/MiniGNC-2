@@ -122,12 +122,13 @@
         <label class="color">Choose a name for the database:</label>
         <input type="text" value="example" id="save_file_name" name="save_file_name" />
         <input style="margin-top:5px" type="submit" value="Save to Database" name="add_databtn">
-    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:15px 0px 15px">
     </form>
     <form action="#" method="get">
         <label class="color">Clear the database (FOR DEV PURPOSES ONLY):</label>
+        <input type="text" value="Graph Name Here" id="clear_file_name" name="clear_file_name" />
         <input style="margin-top:5px" type="submit" value="Clear Database" name="clr_database">
-    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:15px 0px 15px">
     </form>
     <form action="#" method="get">
         <label class="color">Select a csv file to load:</label>
@@ -138,6 +139,50 @@
         <label class="color">Select a csv file to remove nodes:</label>
         <input style="color: #ffffff" type="file" name="remove_databtn" id="remove_databtn" accept=".csv">
         <input style="margin-top:5px" type="submit" value="Remove" id="submit_rm_filename"/>
+        <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:15px">
+    </form>
+    <form action="#" method="get">
+        <label class="color">List currently saved databases:</label>
+        <input style="margin-top:5px" type="submit" value="List All" name="list_all_databtn">
+    </form>
+</div>
+
+<div class="content-section box_background_color" id="database" style="width:16%; float:left; margin: 10px 0px 0px 50px; height: 700px">
+    <h2 class="color" style="margin-bottom:20px" align="center">Query Menu</h2>
+    <form action="#" method="get">
+        <label class="color">Choose a query for a specific network:</label>
+        <select name="single_select" id="single_select">
+            <option value="BW_GR">Bandwidth > 500mb/s</option>
+            <option value="BW_LS">Bandwidth < 500mb/s</option>
+            <option value="LS_GR">Loss chance > 0%</option>
+            <option value="LS_LS">Loss chance = 0%</option>
+            <option value="DY_GR">Delay > 0ms</option>
+            <option value="DY_LS">Delay = 0ms</option>
+            <option value="QU_GR">Queue size >= 1000 packets</option>
+            <option value="QU_LS">Queue size < 1000 packets</option>
+        </select>
+        <p style="display: inline-block; color: #ffffff">Specify the network/database name: </p>
+        <input type="text" value="example" id="network_name" name="network_name" />
+        <input style="margin-top:5px" type="submit" value="Run Query" name="single_query_databtn">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+    	<label class="color">Choose a query for all networks:</label>
+        <select name="all_select_type" id="all_select_type">
+            <option value="bandwidth">Bandwidth</option>
+            <option value="loss">Loss Chance</option>
+            <option value="delay">Delay</option>
+            <option value="queue_size">Queue Size</option>
+        </select>
+	<select name="all_select_comparison" id="all_select_comparison">
+	    <option value=">">Greater Than</option>
+	    <option value="<">Less Than</option>
+	    <option value="=">Equal To</option>
+	    <option value='<>'>Not Equal TO</option>
+	</select>
+	<input type="number" id="all_text_number" name="all_text_number"/>
+
+        <input style="margin-top:5px" type="submit" value="Run Query" name="all_query_databtn">
+    <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray; margin:30px 0px 30px">
+
     </form>
 </div>
 

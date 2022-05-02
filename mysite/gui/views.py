@@ -12,7 +12,7 @@ __author__: Gatlin Cruz
 __author__: Cade Tipton
 __author__: Noah Lowry
 __author__: Miles Stanley
-__version__: 12/2/21
+__version__: 5/2/22
 """
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,19 +67,19 @@ def home(request):
         name = request.GET.get('add_host_name')
         ip = request.GET.get('add_host_ip')
         host = nodes.Host(name, ip)
-        graph_nodes['hosts'].append(host)
+        graph_appender(graph_nodes['hosts'], host)
 
     # This is the logic for when the add switch button is clicked
     elif request.GET.get('add_switch_btn'):
         name = request.GET.get('add_switch_name')
         switch = nodes.Switch(name)
-        graph_nodes['switches'].append(switch)
+        graph_appender(graph_nodes['switches'], switch)
 
     # This is the logic for when the add controller button is clicked
     elif request.GET.get('add_controller_btn'):
         name = request.GET.get('add_controller_name')
         controller = nodes.Controller(name)
-        graph_nodes['controllers'].append(controller)
+        graph_appender(graph_nodes['controllers'], controller)
 
     # This is the logic for when the add link button is clicked
     elif request.GET.get('add_link_btn'):
@@ -92,14 +92,14 @@ def home(request):
         link = nodes.Link(first, second)
         if bandwidth != 'default' and bandwidth.isdigit():
             link.set_bandwidth(bandwidth)
-        if delay != 'default' and ((delay[-2:]) == 'ms') and (delay[:-2].isdigit()):
+        if delay != 'default' and delay.isdigit():
             link.set_delay(delay)
         if loss != 'default' and loss.isdigit():
             link.set_loss(loss)
         if queue_size != 'default' and queue_size.isdigit():
             link.set_queue_size(queue_size)
 
-        graph_nodes['links'].append(link)
+        graph_appender(graph_nodes['links'], link)
 
     # This is the logic for when the graph button is clicked
     elif request.GET.get('graphbtn'):
@@ -127,13 +127,54 @@ def home(request):
         filename = request.GET.get('save_file_name')
         buttons.add_to_database(graph_nodes, filename)
 
+    # This is the logic for when the run_single_query button is clicked
+    elif request.GET.get('single_query_databtn'):
+        conditional = request.GET.get('single_select')
+        network_name = request.GET.get('network_name')
+        print("NETWORK NAME IS: " + network_name)
+        if "BW" in conditional:
+            results = buttons.run_bw_query(conditional, network_name)
+        elif "LS" in conditional:
+            results = buttons.run_ls_query(conditional, network_name)
+        elif "DY" in conditional:
+            results = buttons.run_dy_query(conditional, network_name)
+        elif "QU" in conditional:
+            results = buttons.run_qu_query(conditional, network_name)
+
+        for result in results:
+            extra_text['ping'] += result + "\n"
+        # extra_text['ping'] = result_str
+    
+    # This is the logic for when the all_query_databtn button is clicked
+    elif request.GET.get('all_query_databtn'):
+        link_param_type = request.GET.get('all_select_type')
+        comparison_type = request.GET.get('all_select_comparison')
+        comparison_number = request.GET.get('all_text_number')
+        
+        db_list = buttons.get_databases()
+        extra_text['ping'] = "Query Results Across All Databases Where " + link_param_type + comparison_type + comparison_number + "\n\n"
+
+        condition = "toInteger(r." + link_param_type + ") " + comparison_type + " " + comparison_number
+        print("Querying All Databases with: " + condition)
+
+        for db in db_list:
+            extra_text['ping'] += "-----Results From " + db + "-----\n"
+            results = buttons.run_generic_query(db, condition)
+            for result in results:
+                extra_text['ping'] += "\t" + result + "\n"
+
+    # This is the logic for when the list all button is clicked
+    elif request.GET.get('list_all_databtn'):
+        db_list = buttons.get_databases()
+        extra_text['ping'] = "------------Databases--------------\n"
+        for db in db_list:
+            extra_text['ping'] += db + "\n"
+
     # This is the logic for when the clear database button is clicked
     elif request.GET.get('clr_database'):
-        result = buttons.clear_database()
-        # if result:
+        db_name = request.GET.get('clear_file_name')
+        result = buttons.clear_database(db_name)
         extra_text['ping'] = "Database has been cleared."
-        # else:
-        #     extra_text['ping'] = "Error occurred when attempting to clear database."
 
 
     # This is the logic for when the load_data button is clicked
@@ -150,11 +191,11 @@ def home(request):
                 # if row['_labels'] == ":" + file.replace(".csv", ""):
                 if row['_labels'] != "":
                     if row['type'] == 'host':
-                        graph_nodes['hosts'].append(nodes.Host(row.get('name'), row.get('ip')))
+                        graph_appender(graph_nodes['hosts'], nodes.Host(row.get('name'), row.get('ip')))
                     elif row['type'] == 'switch':
-                        graph_nodes['switches'].append(nodes.Switch(row.get('name')))
+                        graph_appender(graph_nodes['switches'], nodes.Switch(row.get('name')))
                     elif row['type'] == 'controller':
-                        graph_nodes['controllers'].append(nodes.Controller(row.get('name')))
+                        graph_appender(graph_nodes['controllers'], nodes.Controller(row.get('name')))
 
                 if row['_start'] != "":
                     first_index = row.get('_start')
@@ -168,7 +209,7 @@ def home(request):
                             second = item.get('name')
                     link = nodes.Link(first, second)
                     set_link_params(link, row)
-                    graph_nodes['links'].append(link)
+                    graph_appender(graph_nodes['links'], link)
 
     #  This is the logic for when the remove_data button is clicked
     elif request.GET.get('remove_databtn'):
@@ -339,7 +380,7 @@ def set_link_params(link, row):
     try:
         if row['_delay'] != "":
             delay_value = row.get('_delay')
-            if ((delay_value[-2:]) == 'ms') and (delay_value[:-2].isdigit()):
+            if (delay_value.isdigit()):
                 # print("Added new delay " + delay_value)
                 link.set_delay(delay_value)
     
@@ -366,6 +407,19 @@ def set_link_params(link, row):
     except KeyError:
         pass
 
+def graph_appender(list, object):
+    """
+    This method ensures that the object being added isn't already within the network. If it isn't, it is added to it's respective lsit
+    :param list: the list to check for duplicates
+    :param object: the object to be added if it is unique
+    Author: Noah and Miles
+    """
+    for item in list:
+        # print(str(item) + " compared to " + str(object))
+        if item.equals(object):
+            print("ERROR: Duplicate node ignored: " + str(object))
+            return
+    list.append(object)
 
 def graph(request):
     """
