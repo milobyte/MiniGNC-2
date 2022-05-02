@@ -21,7 +21,7 @@ The purpose of this project is to eventually graphically simulate Software Defin
    - Follow this link to install: https://neo4j.com/download/
 
 **Note:** sudo is used to execute Mininet commands. Unless your password is 'Mininet'
-you must change `mysite/gui/templates/gui/buttons.py line <UPDATE>` to your sudo password.  
+you must change `mysite/gui/templates/gui/buttons.py line 283` to your sudo password.  
 Yes, this is insecure for native installs and should be handled differently in the future.
 
 ## To Run The Project:
